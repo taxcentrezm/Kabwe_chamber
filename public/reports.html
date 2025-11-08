@@ -138,10 +138,10 @@ th{background:var(--blue);color:#fff;}
     <h3>Tax Collected by Month</h3>
     <canvas id="taxChart"></canvas>
   </div>
-  <div class="chart-container">
-    <h3>Invoice Status</h3>
-    <canvas id="invoiceStatusChart"></canvas>
-  </div>
+  <div class="chart-container" style="max-width:400px;margin:0 auto;">
+  <h3>Invoice Status</h3>
+  <canvas id="invoiceStatusChart" height="300"></canvas>
+</div>
 </div>
 
 <!-- Recent Invoices Table -->
@@ -238,7 +238,11 @@ new Chart(ctxInvoiceStatus,{
       backgroundColor:['#4CAF50','#e53935']
     }]
   },
-  options:{responsive:true,plugins:{legend:{position:'bottom'}}}
+  options:{
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom'}}
+  }
 });
 </script>
 </body>
