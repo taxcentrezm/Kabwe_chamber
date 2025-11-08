@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kabwe Chamber ERP - Billing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root {
+  --green: #006400;
+  --red: #e53935;
+  --orange: #ff9800;
+  --blue: #0078d7;
+  --dark: #111;
+  --bg-dark: #161b22;
+}
+body{margin:0;font-family:'Open Sans',sans-serif;background:#f9fafc;color:#333;scroll-behavior:smooth;}
+h1,h2,h3{font-family:'Poppins',sans-serif;}
+h2{text-align:center;margin-bottom:40px;color:#111;}
+.table-wrapper{max-width:1200px;margin:0 auto;overflow-x:auto;padding:20px;}
+table{width:100%;border-collapse:collapse;margin-bottom:40px;}
+th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left;}
+th{background:#0078d7;color:#fff;}
+.invoice-link{cursor:pointer;color:#4FC3F7;}
+.invoice-link:hover{text-decoration:underline;}
+
+/* Modal */
+.modal {
+  display:none;
+  position:fixed;
+  z-index:1500;
+  left:0;top:0;width:100%;height:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(6px);
+  justify-content:center;
+  align-items:center;
+}
+.modal-content{
+  background:var(--bg-dark);
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:700px;
+  max-height:90%;
+  overflow-y:auto;
+  box-shadow:0 0 20px rgba(0,0,0,0.5);
+  color:#fff;
+}
+.modal-close{
+  color:#ffd43b;
+  float:right;
+  font-size:28px;
+  cursor:pointer;
+}
+.modal-body table{width:100%;border-collapse:collapse;margin-top:15px;}
+.modal-body th, .modal-body td{padding:10px;border-bottom:1px solid #444;color:#fff;}
+.modal-body th{background:#0078d7;color:#fff;}
+.commitment-btn{
+  background:#0078d7;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  padding:10px 20px;
+  border-radius:8px;
+  display:inline-block;
+  transition:0.3s;
+}
+.commitment-btn:hover{transform:scale(1.05);box-shadow:0 6px 18px rgba(145,207,255,0.65);}
+@media(max-width:768px){.modal-content{padding:15px;}}
+</style>
+</head>
+<body>
+
+<h2>Billing & Invoices</h2>
+
+<!-- Invoices Table -->
+<div class="table-wrapper">
+<table>
+<thead>
+<tr>
+<th>Invoice ID</th>
+<th>Member</th>
+<th>Date</th>
+<th>Amount (ZMW)</th>
+<th>Tax (iTX)</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody id="invoiceTableBody"></tbody>
+</table>
+</div>
+
+<!-- Invoice Modal -->
+<div id="invoiceModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h2 id="modalInvoiceId">Invoice #</h2>
+    <p><strong>Member:</strong> <span id="modalMember"></span></p>
+    <p><strong>Date:</strong> <span id="modalDate"></span></p>
+    <p><strong>Total Amount:</strong> ZMW <span id="modalAmount"></span></p>
+    <p><strong>Tax (iTX):</strong> ZMW <span id="modalTax"></span></p>
+    <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+    <div class="modal-body">
+      <h3>Invoice Items</h3>
+      <table>
+        <thead><tr><th>Item</th><th>Quantity</th><th>Price</th><th>Subtotal</th></tr></thead>
+        <tbody id="modalItemsBody"></tbody>
+      </table>
+      <a href="#" class="commitment-btn">Download PDF (Proforma)</a>
+    </div>
+  </div>
+</div>
+
+<script>
+feather.replace();
+
+// ===== MOCK DATA =====
+const invoices = [
+  {id:'INV001', member:'John Banda', date:'2025-11-01', amount:1500, tax:150, status:'Paid', items:[
+    {item:'Membership Fee', qty:1, price:1000},
+    {item:'Workshop', qty:1, price:500}
+  ]},
+  {id:'INV002', member:'Mary Phiri', date:'2025-11-05', amount:2000, tax:200, status:'Unpaid', items:[
+    {item:'Membership Fee', qty:1, price:1000},
+    {item:'Training', qty:2, price:500}
+  ]},
+  {id:'INV003', member:'Peter Zulu', date:'2025-11-07', amount:1200, tax:120, status:'Paid', items:[
+    {item:'Membership Fee', qty:1, price:1000},
+    {item:'Workshop', qty:1, price:200}
+  ]}
+];
+
+// ===== Populate Invoices Table =====
+const invoiceBody = document.getElementById('invoiceTableBody');
+invoices.forEach(inv=>{
+  invoiceBody.innerHTML += `
+    <tr>
+      <td><span class="invoice-link" data-id="${inv.id}">${inv.id}</span></td>
+      <td>${inv.member}</td>
+      <td>${inv.date}</td>
+      <td>${inv.amount.toLocaleString()}</td>
+      <td>${inv.tax.toLocaleString()}</td>
+      <td>${inv.status}</td>
+    </tr>`;
+});
+
+// ===== Modal Logic =====
+const modal = document.getElementById('invoiceModal');
+const modalClose = document.querySelector('.modal-close');
+const modalInvoiceId = document.getElementById('modalInvoiceId');
+const modalMember = document.getElementById('modalMember');
+const modalDate = document.getElementById('modalDate');
+const modalAmount = document.getElementById('modalAmount');
+const modalTax = document.getElementById('modalTax');
+const modalStatus = document.getElementById('modalStatus');
+const modalItemsBody = document.getElementById('modalItemsBody');
+
+document.querySelectorAll('.invoice-link').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const invoice = invoices.find(i=>i.id===el.dataset.id);
+    modalInvoiceId.textContent = invoice.id;
+    modalMember.textContent = invoice.member;
+    modalDate.textContent = invoice.date;
+    modalAmount.textContent = invoice.amount.toLocaleString();
+    modalTax.textContent = invoice.tax.toLocaleString();
+    modalStatus.textContent = invoice.status;
+    modalItemsBody.innerHTML = '';
+    invoice.items.forEach(it=>{
+      const subtotal = it.qty*it.price;
+      modalItemsBody.innerHTML += `<tr><td>${it.item}</td><td>${it.qty}</td><td>${it.price.toLocaleString()}</td><td>${subtotal.toLocaleString()}</td></tr>`;
+    });
+    modal.style.display='flex';
+  });
+});
+
+modalClose.onclick = () => modal.style.display='none';
+window.onclick = e => { if(e.target === modal) modal.style.display='none'; };
+</script>
+</body>
+</html>
