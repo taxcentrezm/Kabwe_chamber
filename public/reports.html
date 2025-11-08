@@ -138,9 +138,9 @@ th{background:var(--blue);color:#fff;}
     <h3>Tax Collected by Month</h3>
     <canvas id="taxChart"></canvas>
   </div>
-  <div class="chart-container" style="max-width:400px;margin:0 auto;">
+<div class="chart-container" style="max-width:400px; height:300px; margin:0 auto;">
   <h3>Invoice Status</h3>
-  <canvas id="invoiceStatusChart" height="300"></canvas>
+  <canvas id="invoiceStatusChart"></canvas>
 </div>
 </div>
 
@@ -240,8 +240,10 @@ new Chart(ctxInvoiceStatus,{
   },
   options:{
     responsive:true,
-    maintainAspectRatio:false,
-    plugins:{legend:{position:'bottom'}}
+    maintainAspectRatio:true, // keep aspect ratio so it doesn't stretch
+    plugins:{
+      legend:{position:'bottom'}
+    }
   }
 });
 </script>
