@@ -1,74 +1,253 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SmartDent ERP — Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kabwe Chamber ERP System</title>
+  <link rel="icon" href="logo.jpg" type="image/jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-    tailwind.config = { darkMode: 'class' }
-  </script>
-</head>
-<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
-  <!-- Navbar -->
-  <nav class="bg-gray-800 p-4 flex justify-between items-center shadow-md">
-    <h1 class="font-bold text-xl">SmartDent ERP</h1>
-    <button onclick="logout()" class="bg-red-600 px-4 py-2 rounded-xl hover:bg-red-500 transition">Logout</button>
-  </nav>
-
-  <!-- Dashboard Content -->
-  <main class="p-6 flex-1">
-    <h2 class="text-2xl font-semibold mb-6">Dashboard Overview</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-gray-800 p-6 rounded-2xl shadow-md">
-        <h3 class="text-lg font-medium mb-2">Total Patients</h3>
-        <p class="text-3xl font-bold">120</p>
-      </div>
-      <div class="bg-gray-800 p-6 rounded-2xl shadow-md">
-        <h3 class="text-lg font-medium mb-2">Revenue</h3>
-        <p class="text-3xl font-bold">$15,400</p>
-      </div>
-      <div class="bg-gray-800 p-6 rounded-2xl shadow-md">
-        <h3 class="text-lg font-medium mb-2">Appointments</h3>
-        <p class="text-3xl font-bold">34</p>
-      </div>
-    </div>
-
-    <div class="mt-8 bg-gray-800 p-6 rounded-2xl shadow-md">
-      <h3 class="text-lg font-medium mb-4">Revenue Chart</h3>
-      <canvas id="revenueChart" class="bg-gray-900 rounded-lg"></canvas>
-    </div>
-  </main>
-
-  <script>
-    function logout() {
-      window.location.href = "index.html";
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #0d1117;
+      color: #f1f1f1;
+      display: flex;
+      min-height: 100vh;
     }
 
-    const ctx = document.getElementById('revenueChart').getContext('2d');
-    const revenueChart = new Chart(ctx, {
+    /* SIDEBAR */
+    .sidebar {
+      width: 240px;
+      background: #001f3f;
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.3s;
+    }
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #ffd43b;
+    }
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .sidebar a:hover {
+      background: #003366;
+    }
+    .sidebar footer {
+      font-size: 0.8rem;
+      color: #bbb;
+      text-align: center;
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      margin-left: 260px;
+      padding: 40px;
+      flex-grow: 1;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+      color: #ffd43b;
+    }
+
+    .summary-cards {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .card {
+      background: #161b22;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      min-width: 250px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      transition: 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-3px);
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      color: #ffd43b;
+    }
+    .card p {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    /* CHARTS SECTION */
+    .charts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .chart-container {
+      background: #161b22;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      min-width: 400px;
+    }
+
+    /* TABLE SECTION */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 40px;
+      background: #161b22;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 15px;
+      border-bottom: 1px solid #333;
+      text-align: left;
+    }
+    th {
+      background: #003366;
+      color: #fff;
+    }
+    tr:hover {
+      background: #1e2633;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h2>KCCI ERP</h2>
+      <a href="#"><i data-feather="home"></i> Dashboard</a>
+      <a href="#"><i data-feather="users"></i> Members</a>
+      <a href="#"><i data-feather="credit-card"></i> Billing</a>
+      <a href="#"><i data-feather="bar-chart-2"></i> Accounting</a>
+      <a href="#"><i data-feather="file-text"></i> Tax Returns</a>
+      <a href="#"><i data-feather="settings"></i> Settings</a>
+    </div>
+    <footer>© 2025 Kabwe Chamber</footer>
+  </div>
+
+  <!-- Main Section -->
+  <div class="main">
+    <div class="dashboard-header">
+      <h1>ERP Dashboard</h1>
+      <p>Welcome, Admin</p>
+    </div>
+
+    <div class="summary-cards">
+      <div class="card">
+        <h3>Total Members</h3>
+        <p>325</p>
+      </div>
+      <div class="card">
+        <h3>Active Subscriptions</h3>
+        <p>285</p>
+      </div>
+      <div class="card">
+        <h3>Revenue (ZMW)</h3>
+        <p>124,500</p>
+      </div>
+      <div class="card">
+        <h3>Pending Invoices</h3>
+        <p>12</p>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="charts">
+      <div class="chart-container">
+        <h3>Revenue Growth</h3>
+        <canvas id="revenueChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Membership Growth</h3>
+        <canvas id="membersChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <h2 style="margin-top:40px;">Recent Transactions</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Invoice ID</th>
+          <th>Member Name</th>
+          <th>Amount (ZMW)</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>#INV001</td><td>Chiluba Traders</td><td>1,200</td><td>Paid</td><td>2025-11-01</td></tr>
+        <tr><td>#INV002</td><td>Central Steel Ltd</td><td>3,500</td><td>Pending</td><td>2025-11-02</td></tr>
+        <tr><td>#INV003</td><td>Kwacha Agro</td><td>2,000</td><td>Paid</td><td>2025-11-03</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    feather.replace();
+
+    // Revenue Chart
+    const revenueCtx = document.getElementById('revenueChart');
+    new Chart(revenueCtx, {
       type: 'line',
       data: {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [{
-          label: 'Revenue',
-          data: [1200, 1900, 3000, 5000, 4000, 6000],
-          borderColor: 'rgba(59, 130, 246, 1)',
-          backgroundColor: 'rgba(59, 130, 246, 0.3)',
-          tension: 0.4,
+          label: 'Revenue (ZMW)',
+          data: [20000, 30000, 25000, 40000, 50000, 60000],
+          borderColor: '#ffd43b',
+          backgroundColor: 'rgba(255, 212, 59, 0.2)',
+          fill: true,
+          tension: 0.3
         }]
       },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { labels: { color: '#ffffff' } }
-        },
-        scales: {
-          x: { ticks: { color: '#ffffff' }, grid: { color: '#374151' } },
-          y: { ticks: { color: '#ffffff' }, grid: { color: '#374151' } }
-        }
-      }
+      options: { scales: { y: { beginAtZero: true } } }
+    });
+
+    // Members Chart
+    const membersCtx = document.getElementById('membersChart');
+    new Chart(membersCtx, {
+      type: 'bar',
+      data: {
+        labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+        datasets: [{
+          label: 'Members',
+          data: [100, 150, 220, 280, 320, 350],
+          backgroundColor: '#0078d7'
+        }]
+      },
+      options: { scales: { y: { beginAtZero: true } } }
     });
   </script>
 </body>
