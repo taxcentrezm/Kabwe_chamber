@@ -25,6 +25,18 @@ th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left;}
 th{background:#0078d7;color:#fff;}
 .invoice-link{cursor:pointer;color:#4FC3F7;}
 .invoice-link:hover{text-decoration:underline;}
+.commitment-btn{
+  background:#0078d7;
+  color:#fff;
+  font-weight:600;
+  text-decoration:none;
+  padding:10px 20px;
+  border-radius:8px;
+  display:inline-block;
+  transition:0.3s;
+  cursor:pointer;
+}
+.commitment-btn:hover{transform:scale(1.05);box-shadow:0 6px 18px rgba(145,207,255,0.65);}
 
 /* Modal */
 .modal {
@@ -57,23 +69,17 @@ th{background:#0078d7;color:#fff;}
 .modal-body table{width:100%;border-collapse:collapse;margin-top:15px;}
 .modal-body th, .modal-body td{padding:10px;border-bottom:1px solid #444;color:#fff;}
 .modal-body th{background:#0078d7;color:#fff;}
-.commitment-btn{
-  background:#0078d7;
-  color:#fff;
-  font-weight:600;
-  text-decoration:none;
-  padding:10px 20px;
-  border-radius:8px;
-  display:inline-block;
-  transition:0.3s;
-}
-.commitment-btn:hover{transform:scale(1.05);box-shadow:0 6px 18px rgba(145,207,255,0.65);}
 @media(max-width:768px){.modal-content{padding:15px;}}
+input, select {width:100%;padding:10px;margin:8px 0;border-radius:6px;border:none;box-sizing:border-box;}
 </style>
 </head>
 <body>
 
 <h2>Billing & Invoices</h2>
+
+<div style="text-align:center;margin-bottom:20px;">
+  <span class="commitment-btn" id="newInvoiceBtn">Add New Invoice</span>
+</div>
 
 <!-- Invoices Table -->
 <div class="table-wrapper">
@@ -92,7 +98,7 @@ th{background:#0078d7;color:#fff;}
 </table>
 </div>
 
-<!-- Invoice Modal -->
+<!-- View Invoice Modal -->
 <div id="invoiceModal" class="modal">
   <div class="modal-content">
     <span class="modal-close">&times;</span>
@@ -113,11 +119,36 @@ th{background:#0078d7;color:#fff;}
   </div>
 </div>
 
+<!-- New Invoice Modal -->
+<div id="newInvoiceModal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" id="newInvoiceClose">&times;</span>
+    <h2>Create New Invoice</h2>
+    <div class="modal-body">
+      <label>Invoice Type</label>
+      <select id="invoiceType">
+        <option value="Proforma">Proforma Invoice</option>
+        <option value="Receipt">Payment Receipt</option>
+      </select>
+      <label>Member/Company Name</label>
+      <input type="text" id="memberName" placeholder="Enter member or company name">
+      <label>Amount (ZMW)</label>
+      <input type="number" id="invoiceAmount" placeholder="Enter amount">
+      <label>Tax (iTX)</label>
+      <input type="number" id="invoiceTax" placeholder="Enter tax">
+      <label>Invoice Date</label>
+      <input type="date" id="invoiceDate" value="">
+      <p><strong>Generated Reference:</strong> <span id="invoiceRef">-</span></p>
+      <span class="commitment-btn" id="saveInvoiceBtn">Save Invoice</span>
+    </div>
+  </div>
+</div>
+
 <script>
 feather.replace();
 
 // ===== MOCK DATA =====
-const invoices = [
+let invoices = [
   {id:'INV001', member:'John Banda', date:'2025-11-01', amount:1500, tax:150, status:'Paid', items:[
     {item:'Membership Fee', qty:1, price:1000},
     {item:'Workshop', qty:1, price:500}
@@ -133,20 +164,24 @@ const invoices = [
 ];
 
 // ===== Populate Invoices Table =====
-const invoiceBody = document.getElementById('invoiceTableBody');
-invoices.forEach(inv=>{
-  invoiceBody.innerHTML += `
-    <tr>
-      <td><span class="invoice-link" data-id="${inv.id}">${inv.id}</span></td>
-      <td>${inv.member}</td>
-      <td>${inv.date}</td>
-      <td>${inv.amount.toLocaleString()}</td>
-      <td>${inv.tax.toLocaleString()}</td>
-      <td>${inv.status}</td>
-    </tr>`;
-});
+function refreshInvoiceTable(){
+  const invoiceBody = document.getElementById('invoiceTableBody');
+  invoiceBody.innerHTML = '';
+  invoices.forEach(inv=>{
+    invoiceBody.innerHTML += `
+      <tr>
+        <td><span class="invoice-link" data-id="${inv.id}">${inv.id}</span></td>
+        <td>${inv.member}</td>
+        <td>${inv.date}</td>
+        <td>${inv.amount.toLocaleString()}</td>
+        <td>${inv.tax.toLocaleString()}</td>
+        <td>${inv.status}</td>
+      </tr>`;
+  });
+  bindInvoiceLinks();
+}
 
-// ===== Modal Logic =====
+// ===== View Invoice Modal Logic =====
 const modal = document.getElementById('invoiceModal');
 const modalClose = document.querySelector('.modal-close');
 const modalInvoiceId = document.getElementById('modalInvoiceId');
@@ -157,26 +192,78 @@ const modalTax = document.getElementById('modalTax');
 const modalStatus = document.getElementById('modalStatus');
 const modalItemsBody = document.getElementById('modalItemsBody');
 
-document.querySelectorAll('.invoice-link').forEach(el=>{
-  el.addEventListener('click', ()=>{
-    const invoice = invoices.find(i=>i.id===el.dataset.id);
-    modalInvoiceId.textContent = invoice.id;
-    modalMember.textContent = invoice.member;
-    modalDate.textContent = invoice.date;
-    modalAmount.textContent = invoice.amount.toLocaleString();
-    modalTax.textContent = invoice.tax.toLocaleString();
-    modalStatus.textContent = invoice.status;
-    modalItemsBody.innerHTML = '';
-    invoice.items.forEach(it=>{
-      const subtotal = it.qty*it.price;
-      modalItemsBody.innerHTML += `<tr><td>${it.item}</td><td>${it.qty}</td><td>${it.price.toLocaleString()}</td><td>${subtotal.toLocaleString()}</td></tr>`;
+function bindInvoiceLinks(){
+  document.querySelectorAll('.invoice-link').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const invoice = invoices.find(i=>i.id===el.dataset.id);
+      modalInvoiceId.textContent = invoice.id;
+      modalMember.textContent = invoice.member;
+      modalDate.textContent = invoice.date;
+      modalAmount.textContent = invoice.amount.toLocaleString();
+      modalTax.textContent = invoice.tax.toLocaleString();
+      modalStatus.textContent = invoice.status;
+      modalItemsBody.innerHTML = '';
+      invoice.items.forEach(it=>{
+        const subtotal = it.qty*it.price;
+        modalItemsBody.innerHTML += `<tr><td>${it.item}</td><td>${it.qty}</td><td>${it.price.toLocaleString()}</td><td>${subtotal.toLocaleString()}</td></tr>`;
+      });
+      modal.style.display='flex';
     });
-    modal.style.display='flex';
   });
-});
-
+}
 modalClose.onclick = () => modal.style.display='none';
 window.onclick = e => { if(e.target === modal) modal.style.display='none'; };
+refreshInvoiceTable();
+
+// ===== New Invoice Modal Logic =====
+const newModal = document.getElementById('newInvoiceModal');
+const newInvoiceBtn = document.getElementById('newInvoiceBtn');
+const newInvoiceClose = document.getElementById('newInvoiceClose');
+const invoiceRef = document.getElementById('invoiceRef');
+const memberName = document.getElementById('memberName');
+const invoiceDate = document.getElementById('invoiceDate');
+
+function generateInvoiceRef(name){
+  const first5 = name.replace(/\s+/g,'').substring(0,5).toUpperCase();
+  const date = new Date(invoiceDate.value || new Date()).toISOString().slice(0,10);
+  const randomNum = Math.floor(1000 + Math.random()*9000);
+  return `${first5}-${date}-${randomNum}`;
+}
+
+memberName.addEventListener('input', ()=> invoiceRef.textContent = generateInvoiceRef(memberName.value));
+invoiceDate.addEventListener('change', ()=> invoiceRef.textContent = generateInvoiceRef(memberName.value));
+
+newInvoiceBtn.onclick = ()=> {
+  invoiceDate.value = new Date().toISOString().slice(0,10);
+  invoiceRef.textContent = generateInvoiceRef(memberName.value || 'MEM');
+  newModal.style.display='flex';
+};
+newInvoiceClose.onclick = ()=> newModal.style.display='none';
+window.onclick = e => { if(e.target === newModal) newModal.style.display='none'; };
+
+// ===== Save New Invoice =====
+document.getElementById('saveInvoiceBtn').onclick = ()=>{
+  const type = document.getElementById('invoiceType').value;
+  const member = memberName.value || 'Anonymous';
+  const date = invoiceDate.value || new Date().toISOString().slice(0,10);
+  const amount = parseFloat(document.getElementById('invoiceAmount').value) || 0;
+  const tax = parseFloat(document.getElementById('invoiceTax').value) || 0;
+  const ref = invoiceRef.textContent;
+
+  invoices.push({
+    id: ref,
+    member,
+    date,
+    amount,
+    tax,
+    status:'Unpaid',
+    items:[{item:type, qty:1, price:amount}]
+  });
+
+  refreshInvoiceTable();
+  newModal.style.display='none';
+  memberName.value=''; document.getElementById('invoiceAmount').value=''; document.getElementById('invoiceTax').value='';
+};
 </script>
 </body>
 </html>
