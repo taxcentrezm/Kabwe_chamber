@@ -129,19 +129,23 @@ th{background:var(--blue);color:#fff;}
 </div>
 
 <!-- Charts -->
-<div class="chart-section">
-  <div class="chart-container">
+<div class="chart-section" style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; max-width:1200px; margin:0 auto 50px auto;">
+  
+  <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
     <h3>Revenue by Month</h3>
     <canvas id="revenueChart"></canvas>
   </div>
-  <div class="chart-container">
+
+  <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
     <h3>Tax Collected by Month</h3>
     <canvas id="taxChart"></canvas>
   </div>
-<div class="chart-container" style="max-width:400px; height:300px; margin:0 auto;">
-  <h3>Invoice Status</h3>
-  <canvas id="invoiceStatusChart"></canvas>
-</div>
+
+  <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
+    <h3>Invoice Status</h3>
+    <canvas id="invoiceStatusChart"></canvas>
+  </div>
+
 </div>
 
 <!-- Recent Invoices Table -->
@@ -201,7 +205,7 @@ invoices.forEach(inv=>{
   </tr>`;
 });
 
-// Charts
+// Revenue Chart
 const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
 new Chart(ctxRevenue, {
   type:'line',
@@ -209,41 +213,46 @@ new Chart(ctxRevenue, {
     labels:months.slice(0,6),
     datasets:[{
       label:'Revenue (ZMW)',
-      data:revenueData.map(v=>v.toFixed(2)),
+      data:revenueData,
       borderColor:'#1E4E8C',
       backgroundColor:'rgba(30,78,140,0.2)',
       tension:0.3
     }]
   },
-  options:{responsive:true,plugins:{legend:{display:false}}}
+  options:{
+    responsive:true,
+    maintainAspectRatio:false, // important to fit container
+    plugins:{legend:{display:false}}
+  }
 });
 
+// Tax Chart
 const ctxTax = document.getElementById('taxChart').getContext('2d');
 new Chart(ctxTax,{
   type:'bar',
   data:{
     labels:months.slice(0,6),
-    datasets:[{label:'Tax Collected (iTX)',data:taxData.map(v=>v.toFixed(2)),backgroundColor:'#ff9800'}]
+    datasets:[{label:'Tax Collected (iTX)', data:taxData, backgroundColor:'#ff9800'}]
   },
-  options:{responsive:true,plugins:{legend:{position:'top'}}}
+  options:{
+    responsive:true,
+    maintainAspectRatio:false, // fit container
+    plugins:{legend:{position:'top'}}
+  }
 });
 
+// Invoice Status Doughnut Chart
 const ctxInvoiceStatus = document.getElementById('invoiceStatusChart').getContext('2d');
 new Chart(ctxInvoiceStatus,{
   type:'doughnut',
   data:{
     labels:['Paid','Unpaid'],
-    datasets:[{
-      data:[paidInvoices,unpaidInvoices],
-      backgroundColor:['#4CAF50','#e53935']
-    }]
+    datasets:[{data:[paidInvoices,unpaidInvoices], backgroundColor:['#4CAF50','#e53935']}]
   },
   options:{
     responsive:true,
-    maintainAspectRatio:true, // keep aspect ratio so it doesn't stretch
-    plugins:{
-      legend:{position:'bottom'}
-    }
+    maintainAspectRatio:false, // fit container
+    plugins:{legend:{position:'bottom'}}
   }
 });
 </script>
