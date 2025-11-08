@@ -162,6 +162,11 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
   .stats-row { flex-direction: column; align-items: center; }
   .cards-col .form-card { flex: 0 0 80%; }
 }
+/* Ensure canvas has height */
+.chart-col canvas {
+  width: 100% !important;
+  height: 350px !important;
+}
 
 
 </style>
@@ -314,9 +319,9 @@ fetch('https://api.twelvedata.com/price?symbol=SPY&apikey=YOUR_API_KEY')
     document.getElementById('statStock').textContent = 'N/A';
   });
 
-// First Chart
-const ctx1 = document.getElementById('chart1').getContext('2d');
-const chart1 = new Chart(ctx1, {
+// First Chart - Member Growth
+const ctxGrowth = document.getElementById('growthChart').getContext('2d');
+const growthChart = new Chart(ctxGrowth, {
   type: 'line',
   data: {
     labels: ['Jan','Feb','Mar','Apr','May','Jun'],
@@ -328,18 +333,22 @@ const chart1 = new Chart(ctx1, {
       tension: 0.3
     }]
   },
-  options: { responsive:true, plugins:{legend:{display:false}} }
+  options: { 
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } }
+  }
 });
 
-// Second Chart
-const ctx2 = document.getElementById('chart2').getContext('2d');
-const chart2 = new Chart(ctx2, {
+// Second Chart - Revenue & New Registrations
+const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+const revenueChart = new Chart(ctxRevenue, {
   type: 'bar',
   data: {
     labels: ['Jan','Feb','Mar','Apr','May','Jun'],
     datasets: [
       {
-        label: 'Revenue (ZMK)',
+        label: 'Revenue (ZMW)',
         data: [100000, 150000, 120000, 180000, 220000, 250000],
         backgroundColor: '#e53935'
       },
@@ -350,16 +359,20 @@ const chart2 = new Chart(ctx2, {
       }
     ]
   },
-  options: { responsive:true, plugins:{legend:{position:'top'}} }
+  options: { 
+    responsive: true, 
+    maintainAspectRatio: false,
+    plugins: { legend: { position: 'top' } }
+  }
 });
-
 </script>
+
 
 <!-- About Section -->
 <section id="about" data-aos="fade-up">
   <h2>About Kabwe Chamber</h2>
   <div class="about-wrapper">
-    <div class="about-image"><img src="kabwe_office.jpg" alt="Chamber Office"></div>
+    <div class="about-image"><img src="town.jpg" alt="Chamber Office"></div>
     <div class="about-text">
       <p>The Kabwe Chamber of Commerce and Industry is a non-profit association promoting the interests of businesses in Kabwe. We provide advocacy, networking, and resources to support sustainable economic growth.</p>
       <ul class="about-highlights">
