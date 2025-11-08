@@ -154,6 +154,93 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
   </div>
 </section>
 
+  <!-- Summary Cards Section -->
+<section id="stats" data-aos="fade-up" style="padding:80px 20px; background:#fff;">
+  <div class="section-header">
+    <h1>Key Statistics</h1>
+    <p>Overview of growth, events and economic indicators.</p>
+  </div>
+  <div class="form-card-grid">
+    <div class="form-card" id="card‑members">
+      <i data-feather="users"></i>
+      <h3>Member Growth</h3>
+      <p><span class="stat‑value" id="statMembers">‑</span> members</p>
+    </div>
+    <div class="form-card" id="card‑events">
+      <i data-feather="calendar"></i>
+      <h3>Upcoming Events</h3>
+      <p><span class="stat‑value" id="statEvents">‑</span> events</p>
+    </div>
+    <div class="form-card" id="card‑economic">
+      <i data-feather="bar-chart-2"></i>
+      <h3>Economic Impact</h3>
+      <p><span class="stat‑value" id="statImpact">‑</span> ZMW</p>
+    </div>
+    <div class="form-card" id="card‑stock">
+      <i data-feather="trending‑up"></i>
+      <h3>Market Index (Sample)</h3>
+      <p><span class="stat‑value" id="statStock">‑</span></p>
+    </div>
+  </div>
+
+  <!-- Chart Canvas -->
+  <div style="max‑width:900px; margin: 60px auto;">
+    <canvas id="growthChart"></canvas>
+  </div>
+</section>
+
+<!-- Script for fetching data + showing chart -->
+<script>
+// Example summary values (replace with real fetches)
+document.getElementById('statMembers').textContent = '1,234';
+document.getElementById('statEvents').textContent = '12';
+document.getElementById('statImpact').textContent = '24,500,000';
+
+// --- Fetch live stock/index data (placeholder) ---
+// Using a free stock API (e.g., Alpha Vantage or Twelve Data) 
+// Example: Twelve Data endpoint: https://api.twelvedata.com/price?symbol=SPY&apikey=YOUR_KEY
+fetch('https://api.twelvedata.com/price?symbol=SPY&apikey=YOUR_API_KEY')
+  .then(res => res.json())
+  .then(data => {
+    if (data.price) {
+      document.getElementById('statStock').textContent = 'USD ' + data.price;
+    } else {
+      document.getElementById('statStock').textContent = 'N/A';
+    }
+  })
+  .catch(err => {
+    console.error('Stock data fetch error:', err);
+    document.getElementById('statStock').textContent = 'N/A';
+  });
+
+// --- Chart showing Member Growth over time ---
+const ctx = document.getElementById('growthChart').getContext('2d');
+const growthChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['2021','2022','2023','2024','2025'],
+    datasets: [{
+      label: 'Members',
+      data: [800, 950, 1100, 1280, 1500],
+      backgroundColor: 'rgba(0,120,215,0.2)',
+      borderColor: 'rgba(0,120,215,1)',
+      borderWidth: 2,
+      fill: true,
+      tension: 0.4
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      y: { beginAtZero: false, ticks: { callback: v => v + ' members' } }
+    },
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
+</script>
+
 <!-- About Section -->
 <section id="about" data-aos="fade-up">
   <h2>About Kabwe Chamber</h2>
