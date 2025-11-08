@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartDent ERP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <style>
+    /* Smooth transition for sidebar */
+    .sidebar {
+      transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-gray-100 flex h-screen overflow-hidden">
+  
+  <!-- Sidebar -->
+  <aside id="sidebar" class="sidebar fixed left-0 top-0 w-64 h-full bg-gray-800 shadow-xl transform -translate-x-full md:translate-x-0 z-30">
+    <div class="p-6">
+      <h2 class="text-2xl font-bold mb-6">SmartDent ERP</h2>
+      <nav class="space-y-4">
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">Dashboard</a>
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">Patients</a>
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">Appointments</a>
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">Invoices</a>
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-gray-700 transition">Settings</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-auto">
+    
+    <!-- Top Navbar -->
+    <header class="flex items-center justify-between bg-gray-800 p-4 shadow-md">
+      <div class="flex items-center">
+        <button id="sidebarToggle" class="md:hidden text-gray-100 mr-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" 
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+        <h1 class="text-xl font-semibold">SmartDent ERP</h1>
+      </div>
+      <div>
+        <button class="bg-blue-600 px-4 py-2 rounded-xl hover:bg-blue-500 transition"
+                onclick="window.location.href='member.html'">
+          Register
+        </button>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="flex-1 flex flex-col justify-center items-center p-6 text-center space-y-6">
+      <h2 class="text-4xl md:text-5xl font-bold">Manage Your Dental Clinic Seamlessly</h2>
+      <p class="text-gray-400 max-w-xl">SmartDent ERP helps dental clinics track patients, appointments, revenue, and payroll all in one place, with a sleek iOS 16-inspired interface.</p>
+      <div class="space-x-4">
+        <button class="bg-blue-600 px-6 py-3 rounded-xl hover:bg-blue-500 transition"
+                onclick="window.location.href='index.html'">Login</button>
+        <button class="bg-green-600 px-6 py-3 rounded-xl hover:bg-green-500 transition"
+                onclick="window.location.href='member.html'">Sign Up</button>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="bg-gray-800 p-6 md:p-12">
+      <h3 class="text-2xl font-semibold mb-6 text-center">Key Features</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-gray-700 p-6 rounded-2xl shadow-md text-center">
+          <h4 class="font-bold text-lg mb-2">Patient Management</h4>
+          <p class="text-gray-300">Easily track patient records, appointments, and history in one secure place.</p>
+        </div>
+        <div class="bg-gray-700 p-6 rounded-2xl shadow-md text-center">
+          <h4 class="font-bold text-lg mb-2">Revenue Tracking</h4>
+          <p class="text-gray-300">Monitor your clinic's income and expenses with clear dashboards and reports.</p>
+        </div>
+        <div class="bg-gray-700 p-6 rounded-2xl shadow-md text-center">
+          <h4 class="font-bold text-lg mb-2">Appointments & Scheduling</h4>
+          <p class="text-gray-300">Schedule appointments easily and send reminders to your patients automatically.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 p-6 text-center text-gray-400 mt-auto">
+      &copy; 2025 SmartDent ERP. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Sidebar Toggle Script -->
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('-translate-x-full');
+    });
+  </script>
+</body>
+</html>
