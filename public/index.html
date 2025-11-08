@@ -234,12 +234,14 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
   <!-- Summary Cards Section -->
 <!-- Summary + Chart Section -->
 <section id="stats" data-aos="fade-up" style="padding:80px 20px; background:#fff;">
+
   <div class="section-header">
     <h1>Key Statistics</h1>
-    <p>Overview of growth, events, and economic indicators.</p>
+    <p>Overview of growth, events, economic indicators, and market data.</p>
   </div>
 
-  <div class="stats-row" style="display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; justify-content:center;">
+  <!-- First Row: Growth + Summary -->
+  <div class="stats-row" style="display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; justify-content:center; margin-bottom:60px;">
 
     <!-- Chart Column (Left) -->
     <div class="chart-col" style="flex:1; min-width:300px; max-width:600px;">
@@ -248,22 +250,22 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
 
     <!-- Summary Cards Column (Right) -->
     <div class="cards-col" style="flex:1; min-width:250px; display:flex; flex-direction:column; gap:20px;">
-      <div class="form-card" id="card-members" style="background:#4CAF50; color:#fff; padding:20px; border-radius:10px;">
+      <div class="form-card" id="card-members" style="background:#4CAF50; color:#fff; padding:15px; border-radius:10px; text-align:center;">
         <i data-feather="users"></i>
         <h3>Member Growth</h3>
         <p><span class="stat-value" id="statMembers">-</span> members</p>
       </div>
-      <div class="form-card" id="card-events" style="background:#FF9800; color:#fff; padding:20px; border-radius:10px;">
+      <div class="form-card" id="card-events" style="background:#FF9800; color:#fff; padding:15px; border-radius:10px; text-align:center;">
         <i data-feather="calendar"></i>
         <h3>Upcoming Events</h3>
         <p><span class="stat-value" id="statEvents">-</span> events</p>
       </div>
-      <div class="form-card" id="card-economic" style="background:#2196F3; color:#fff; padding:20px; border-radius:10px;">
+      <div class="form-card" id="card-economic" style="background:#2196F3; color:#fff; padding:15px; border-radius:10px; text-align:center;">
         <i data-feather="bar-chart-2"></i>
         <h3>Economic Impact</h3>
         <p><span class="stat-value" id="statImpact">-</span> ZMW</p>
       </div>
-      <div class="form-card" id="card-stock" style="background:#9C27B0; color:#fff; padding:20px; border-radius:10px;">
+      <div class="form-card" id="card-stock" style="background:#9C27B0; color:#fff; padding:15px; border-radius:10px; text-align:center;">
         <i data-feather="trending-up"></i>
         <h3>Market Index (Sample)</h3>
         <p><span class="stat-value" id="statStock">-</span></p>
@@ -271,7 +273,38 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
     </div>
 
   </div>
+
+  <!-- Second Row: Revenue + New Metrics -->
+  <div class="stats-row" style="display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; justify-content:center;">
+
+    <!-- Chart Column (Left) -->
+    <div class="chart-col" style="flex:1; min-width:300px; max-width:600px;">
+      <canvas id="revenueChart"></canvas>
+    </div>
+
+    <!-- Summary Cards Column (Right) -->
+    <div class="cards-col" style="flex:1; min-width:250px; display:flex; flex-direction:column; gap:20px;">
+      <div class="form-card" id="card-registrations" style="background:#FF5722; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+        <i data-feather="user-plus"></i>
+        <h3>New Registrations</h3>
+        <p><span class="stat-value" id="statRegistrations">-</span></p>
+      </div>
+      <div class="form-card" id="card-revenue" style="background:#009688; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+        <i data-feather="dollar-sign"></i>
+        <h3>Revenue</h3>
+        <p>ZMW <span class="stat-value" id="statRevenue">-</span></p>
+      </div>
+      <div class="form-card" id="card-active" style="background:#3F51B5; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+        <i data-feather="activity"></i>
+        <h3>Active Members</h3>
+        <p><span class="stat-value" id="statActive">-</span></p>
+      </div>
+    </div>
+
+  </div>
+
 </section>
+
 
 
 <!-- Script for fetching data + showing chart -->
@@ -292,27 +325,43 @@ fetch('https://api.twelvedata.com/price?symbol=SPY&apikey=YOUR_API_KEY')
     document.getElementById('statStock').textContent = 'N/A';
   });
 
-// Chart showing Member Growth
-const ctx = document.getElementById('growthChart').getContext('2d');
-const growthChart = new Chart(ctx, {
+// First Chart
+const ctx1 = document.getElementById('chart1').getContext('2d');
+const chart1 = new Chart(ctx1, {
   type: 'line',
   data: {
-    labels: ['2021','2022','2023','2024','2025'],
+    labels: ['Jan','Feb','Mar','Apr','May','Jun'],
     datasets: [{
-      label: 'Members',
-      data: [800, 950, 1100, 1280, 1500],
-      backgroundColor: 'rgba(0,120,215,0.2)',
-      borderColor: 'rgba(0,120,215,1)',
-      borderWidth: 2,
-      fill: true,
-      tension: 0.4
+      label: 'Member Growth',
+      data: [50, 70, 90, 110, 130, 150],
+      borderColor: '#1E4E8C',
+      backgroundColor: 'rgba(30,78,140,0.2)',
+      tension: 0.3
     }]
   },
-  options: {
-    responsive: true,
-    scales: { y: { beginAtZero: false, ticks: { callback: v => v + ' members' } } },
-    plugins: { legend: { display: false } }
-  }
+  options: { responsive:true, plugins:{legend:{display:false}} }
+});
+
+// Second Chart
+const ctx2 = document.getElementById('chart2').getContext('2d');
+const chart2 = new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+    datasets: [
+      {
+        label: 'Revenue (ZMK)',
+        data: [100000, 150000, 120000, 180000, 220000, 250000],
+        backgroundColor: '#e53935'
+      },
+      {
+        label: 'New Registrations',
+        data: [10, 20, 15, 25, 30, 45],
+        backgroundColor: '#ff9800'
+      }
+    ]
+  },
+  options: { responsive:true, plugins:{legend:{position:'top'}} }
 });
 
 </script>
