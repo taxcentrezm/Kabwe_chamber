@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartDent ERP — Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col">
+  <!-- Navbar -->
+  <nav class="bg-gray-800 p-4 flex justify-between items-center shadow-md">
+    <h1 class="font-bold text-xl">SmartDent ERP</h1>
+    <button onclick="logout()" class="bg-red-600 px-4 py-2 rounded-xl hover:bg-red-500 transition">Logout</button>
+  </nav>
+
+  <!-- Dashboard Content -->
+  <main class="p-6 flex-1">
+    <h2 class="text-2xl font-semibold mb-6">Dashboard Overview</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-gray-800 p-6 rounded-2xl shadow-md">
+        <h3 class="text-lg font-medium mb-2">Total Patients</h3>
+        <p class="text-3xl font-bold">120</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-2xl shadow-md">
+        <h3 class="text-lg font-medium mb-2">Revenue</h3>
+        <p class="text-3xl font-bold">$15,400</p>
+      </div>
+      <div class="bg-gray-800 p-6 rounded-2xl shadow-md">
+        <h3 class="text-lg font-medium mb-2">Appointments</h3>
+        <p class="text-3xl font-bold">34</p>
+      </div>
+    </div>
+
+    <div class="mt-8 bg-gray-800 p-6 rounded-2xl shadow-md">
+      <h3 class="text-lg font-medium mb-4">Revenue Chart</h3>
+      <canvas id="revenueChart" class="bg-gray-900 rounded-lg"></canvas>
+    </div>
+  </main>
+
+  <script>
+    function logout() {
+      window.location.href = "index.html";
+    }
+
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+        datasets: [{
+          label: 'Revenue',
+          data: [1200, 1900, 3000, 5000, 4000, 6000],
+          borderColor: 'rgba(59, 130, 246, 1)',
+          backgroundColor: 'rgba(59, 130, 246, 0.3)',
+          tension: 0.4,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: '#ffffff' } }
+        },
+        scales: {
+          x: { ticks: { color: '#ffffff' }, grid: { color: '#374151' } },
+          y: { ticks: { color: '#ffffff' }, grid: { color: '#374151' } }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
