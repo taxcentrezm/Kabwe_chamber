@@ -1,422 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kabwe Chamber of Commerce — Membership</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kabwe Chamber — Membership</title>
 <link rel="icon" href="logo.jpg" type="image/jpg" />
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
 <script src="https://unpkg.com/feather-icons"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- jsPDF for proforma PDF generation -->
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
 <style>
-/* GLOBAL */
-body {
-  margin: 0;
-  font-family: 'Open Sans', sans-serif;
-  background: #f9fafc;
-  color: #333;
-  scroll-behavior: smooth;
-}
-h1, h2, h3 {
-  font-family: 'Poppins', sans-serif;
-  margin-bottom: 15px;
-}
-section {
-  padding: 80px 10%;
-  text-align: center;
-}
-p {
-  line-height: 1.7;
-  max-width: 800px;
-  margin: 0 auto 20px;
-}
+  :root{
+    --blue:#0078d7;
+    --gold:#ffd43b;
+    --dark:#0b1220;
+    --muted:#6b7280;
+    --panel: #f7fafc;
+    --card-radius:14px;
+  }
 
-/* SIDENAV */
-.sidenav {
-  height: 100%;
-  width: 220px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: #003366;
-  padding-top: 30px;
-  z-index: 999;
-}
-.sidenav a {
-  padding: 12px 24px;
-  text-decoration: none;
-  font-size: 16px;
-  color: #fff;
-  display: block;
-  transition: 0.3s;
-}
-.sidenav a:hover {
-  background-color: #005fa3;
-}
-.main-content {
-  margin-left: 240px;
-}
+  /* Base */
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Open Sans",sans-serif;background:#f9fafc;color:#111;scroll-behavior:smooth}
+  h1,h2,h3{font-family:"Poppins",sans-serif;margin:0 0 12px}
+  section{padding:70px 6%;}
 
-/* HERO SECTION */
-.hero {
-  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('chamber-hero.jpg') center/cover no-repeat;
-  color: white;
-  padding: 150px 10%;
-  text-align: left;
-}
-.hero h1 {
-  font-size: 2.8rem;
-  margin-bottom: 10px;
-}
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-}
-.hero button {
-  padding: 15px 35px;
-  background: #ffd43b;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.1rem;
-  color: #003366;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.hero button:hover {
-  background: #ffb703;
-  transform: scale(1.05);
-}
+  /* Sidebar */
+  .sidebar{position:fixed;top:0;left:0;height:100vh;width:10px;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);transition:width .35s;overflow:hidden;z-index:1100}
+  .sidebar.open{width:280px}
+  .sidebar ul{list-style:none;padding:0;margin:0}
+  .sidebar li{padding:18px;display:flex;align-items:center}
+  .sidebar a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:12px}
+  .sidebar i{color:var(--gold)}
+  .sidebar-footer{position:absolute;bottom:20px;left:0;right:0;padding:20px;display:flex;flex-direction:column;gap:8px}
+  .commitment-btn{background:var(--blue);color:#fff;padding:10px 14px;border-radius:10px;text-align:center;text-decoration:none;font-weight:700}
 
-/* SECTIONS */
-.cards {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
-}
-.card {
-  background: white;
-  border-radius: 10px;
-  padding: 25px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-  width: 280px;
-  text-align: center;
-  transition: 0.3s;
-}
-.card:hover {
-  transform: translateY(-5px);
-}
-.card i {
-  color: #0078d7;
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
+  /* toggle */
+  .sidebar-toggle{position:fixed;left:10px;top:50%;transform:translateY(-50%);background:var(--blue);color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;z-index:1200;box-shadow:0 6px 18px rgba(0,0,0,0.18);cursor:pointer;transition:left .35s}
+  .sidebar.open ~ .sidebar-toggle{left:224px}
 
-/* PARTNERS SECTION */
-.partners {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 30px;
-  align-items: center;
-}
-.partners img {
-  height: 60px;
-  filter: grayscale(100%);
-  transition: 0.3s;
-}
-.partners img:hover {
-  filter: none;
-}
+  /* Hero */
+  .hero{height:60vh;min-height:380px;position:relative;display:flex;align-items:center;background:linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.25)), url('kabwe.jpg') center/cover no-repeat;color:#fff;padding:48px 6%}
+  .hero .content{max-width:900px}
+  .hero h1{font-size:2.4rem;margin-bottom:12px}
+  .hero p{font-size:1.05rem;margin-bottom:18px;color:rgba(255,255,255,0.9)}
+  .primary-cta{background:var(--gold);color:var(--dark);padding:12px 20px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+  .primary-cta:hover{transform:translateY(-3px)}
 
-/* CALL TO ACTION */
-.cta {
-  background: #003366;
-  color: white;
-  padding: 80px 10%;
-}
-.cta button {
-  background: #ffd43b;
-  color: #003366;
-  font-weight: 700;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 8px;
-  padding: 15px 35px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.cta button:hover {
-  background: #ffb703;
-  transform: scale(1.05);
-}
+  /* Sections */
+  .cards{display:flex;flex-wrap:wrap;gap:22px;justify-content:center}
+  .card{background:#fff;border-radius:12px;padding:22px;width:280px;box-shadow:0 8px 24px rgba(0,0,0,0.08);text-align:left}
+  .card i{font-size:1.6rem;color:var(--blue);margin-bottom:8px}
 
-/* Modal Container */
-.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center; }
-.modal.show { display:flex; }
-/* Modal Content */
-.modal-content { display:flex; background:#fff; width:90%; max-width:1200px; border-radius:12px; overflow:hidden; min-height:500px; }
-/* Left Panel */
-.modal-left { flex:1; background:url('images (2).jpg') center/cover no-repeat; color:#fff; display:flex; flex-direction:column; justify-content:center; padding:40px; }
-.modal-left h2 { font-size:2rem; margin-bottom:20px; }
-.modal-left p { font-size:1.1rem; line-height:1.6; }
-/* Center Panel - Step Navbar */
-.modal-center { flex:0.2; background:#f1f1f1; display:flex; flex-direction:column; justify-content:flex-start; align-items:center; padding:20px; }
-.step { text-align:center; margin-bottom:30px; cursor:pointer; opacity:0.5; transition:0.3s; }
-.step.active, .step.completed{ opacity:1; }
-.step i { font-size:1.8rem; margin-bottom:8px; }
-.step span { display:block; font-size:0.9rem; }
-/* Right Panel - Form Content */
-.modal-right { flex:1.5; padding:30px; overflow-y:auto; }
-.modal-right h3 { margin-bottom:15px; color:#0078d7; }
-.form-group { margin-bottom:15px; }
-.form-group label { display:block; margin-bottom:5px; font-weight:600; }
-.form-group input, .form-group select { width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:1rem; }
-/* Navigation Buttons */
-.modal-right .nav-buttons { display:flex; justify-content:space-between; margin-top:20px; }
-.modal-right button { padding:10px 20px; border:none; border-radius:8px; font-weight:600; background:#0078d7; color:#fff; transition:0.3s; }
-.modal-right button:hover { background:#005fa3; }
-/* Payment Section */
-.payment-options { display:flex; gap:15px; margin-bottom:20px; }
-.payment-options label { flex:1; background:#f1f1f1; padding:15px; border-radius:8px; text-align:center; cursor:pointer; transition:0.3s; }
-.payment-options input[type="radio"] { display:none; }
-.payment-options input[type="radio"]:checked + label { background:#0078d7; color:#fff; }
-/* Invoice */
-#invoice { margin-top:20px; padding:15px; background:#f9f9f9; border:1px solid #ccc; border-radius:8px; display:none; }
-@media(max-width:1024px){ .modal-content{flex-direction:column;} .modal-left,.modal-center,.modal-right{flex:none;width:100%;} .modal-center{flex-direction:row; justify-content:center; gap:10px;}}
+  /* partners */
+  .partners{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;align-items:center}
+  .partners img{height:56px;filter:grayscale(100%);transition:filter .25s}
+  .partners img:hover{filter:none}
+
+  /* CTA */
+  .cta{background:var(--dark);color:#fff;padding:48px 6%;text-align:center}
+  .cta .primary-cta{background:var(--gold);color:var(--dark)}
+
+  /* Modal overlay & iOS blur */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.45);backdrop-filter: blur(8px) brightness(.85);opacity:0;pointer-events:none;transition:opacity .28s;z-index:2000}
+  .modal-backdrop.show{opacity:1;pointer-events:auto}
+
+  /* Modal content (sheet) */
+  .membership-modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(.98);width:92%;max-width:1200px;background:transparent;border-radius:16px;z-index:2001;opacity:0;pointer-events:none;transition:all .28s}
+  .membership-modal.show{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+  .modal-card{display:flex;background:rgba(255,255,255,0.98);border-radius:14px;overflow:hidden;box-shadow:0 18px 50px rgba(2,6,23,0.45);min-height:520px}
+  /* Left (visual) */
+  .modal-left{flex:1;background-image:url('chamber-hero.jpg');background-size:cover;background-position:center;padding:36px;color:#fff;display:flex;flex-direction:column;justify-content:center;gap:12px}
+  .modal-left .logo{width:76px;height:76px;border-radius:18px;background:rgba(0,0,0,0.22);display:flex;align-items:center;justify-content:center;font-weight:700}
+  .modal-left h2{font-size:1.6rem}
+  .modal-left p{opacity:.95;line-height:1.5}
+
+  /* center step nav */
+  .modal-center{width:110px;background:#f4f6f8;display:flex;flex-direction:column;align-items:center;gap:18px;padding:18px 10px}
+  .step{display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.48;cursor:pointer;transition:all .2s}
+  .step.active,.step.completed{opacity:1}
+  .step i{background:#fff;border-radius:10px;padding:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06);color:var(--blue)}
+  .step span{font-size:12px;color:var(--muted);text-align:center}
+
+  /* right content */
+  .modal-right{flex:1.6;background:transparent;padding:26px;overflow:auto}
+  .modal-right h3{color:var(--blue);margin-bottom:14px}
+  .form-row{display:flex;gap:12px}
+  .form-group{margin-bottom:12px;width:100%}
+  .form-group label{display:block;font-weight:700;font-size:13px;margin-bottom:6px}
+  .form-group input[type="text"], .form-group input[type="email"], .form-group input[type="tel"], .form-group input[type="number"], .form-group select{width:100%;padding:10px;border-radius:8px;border:1px solid #d0d7de;background:#fff}
+  .file-input{padding:10px;border-radius:8px;border:1px dashed #d0d7de;background:#fbfdff}
+  .nav-buttons{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+  .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700}
+  .btn.secondary{background:#eef4ff;color:var(--blue)}
+  .btn.primary{background:var(--blue);color:#fff}
+  .btn.ghost{background:transparent;border:1px solid #e6ecf8;color:var(--blue)}
+
+  /* payment options */
+  .payment-options{display:flex;gap:12px;flex-wrap:wrap;margin:12px 0}
+  .payment-card{flex:1;min-width:140px;padding:12px;border-radius:10px;background:#f7f9fb;border:1px solid #e6eef8;text-align:center;cursor:pointer}
+  .payment-card.selected{background:linear-gradient(180deg,#e6f0ff,#fff);border-color:var(--blue);box-shadow:0 8px 24px rgba(30,78,140,0.08)}
+
+  /* proforma invoice box */
+  #proforma{display:none;background:#fbfdff;padding:12px;border-radius:8px;border:1px solid #e6eef8;margin-top:12px}
+
+  /* small helpers */
+  .muted{color:var(--muted);font-size:13px}
+  .step-indicator{height:8px;border-radius:10px;background:#e9f0ff;margin-top:6px;overflow:hidden}
+  .step-progress{height:100%;width:0;background:var(--blue);transition:width .25s}
+
+  /* responsive */
+  @media(max-width:1024px){
+    .modal-card{flex-direction:column}
+    .modal-center{display:flex;flex-direction:row;width:100%;padding:14px;overflow:auto}
+    .modal-left,.modal-center,.modal-right{width:100%}
+    .modal-left{height:220px;padding:18px}
+  }
+  @media(max-width:560px){
+    .hero h1{font-size:1.4rem}
+    .sidebar{display:none}
+    .sidebar-toggle{display:none}
+  }
 </style>
 </head>
-
 <body>
 
-<!-- SIDENAV -->
-<div class="sidenav">
-  <a href="#hero"><i data-feather="home"></i> Home</a>
-  <a href="#why"><i data-feather="help-circle"></i> Why Join</a>
-  <a href="#benefits"><i data-feather="star"></i> Benefits</a>
-  <a href="#programmes"><i data-feather="book"></i> Programmes</a>
-  <a href="#events"><i data-feather="calendar"></i> Events</a>
-  <a href="#partners"><i data-feather="users"></i> Partners</a>
-</div>
+<!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <ul>
+    <li><a href="#home"><i data-feather="home"></i> Home</a></li>
+    <li><a href="#why"><i data-feather="help-circle"></i> Why Join</a></li>
+    <li><a href="#benefits"><i data-feather="star"></i> Benefits</a></li>
+    <li><a href="#programmes"><i data-feather="book-open"></i> Programmes</a></li>
+    <li><a href="#events"><i data-feather="calendar"></i> Events</a></li>
+    <li><a href="#partners"><i data-feather="users"></i> Partners</a></li>
+  </ul>
 
-<!-- MAIN CONTENT -->
-<div class="main-content">
+  <div class="sidebar-footer">
+    <a href="membership.html" class="commitment-btn">Membership Registration</a>
+    <a href="programs.html" class="commitment-btn">Programs & Initiatives</a>
+  </div>
+</aside>
 
-  <!-- HERO -->
-  <section id="hero" class="hero">
-    <h1>Join the Kabwe Chamber of Commerce</h1>
-    <p>Be part of a dynamic community empowering businesses across Central Province. Access mentorship, training, networking, and representation at every level.</p>
-    <button onclick="openModal()">Register as Member</button>
-  </section>
+<div class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-chevron-right"></i></div>
 
-  <!-- WHY JOIN -->
-  <section id="why">
-    <h2>Why Join the Chamber?</h2>
-    <p>Membership with the Kabwe Chamber connects you to a powerful business network and the tools you need to grow sustainably.</p>
-    <div class="cards">
-      <div class="card"><i data-feather="trending-up"></i><h3>Growth</h3><p>Unlock new business opportunities through strategic connections.</p></div>
-      <div class="card"><i data-feather="shield"></i><h3>Advocacy</h3><p>We represent your interests before government and key industry bodies.</p></div>
-      <div class="card"><i data-feather="users"></i><h3>Community</h3><p>Join a vibrant community of business leaders driving change together.</p></div>
-    </div>
-  </section>
+<!-- HERO -->
+<section id="home" class="hero" data-aos="fade-up">
+  <div class="content">
+    <h1>Join the Kabwe Chamber of Commerce & Industry</h1>
+    <p>Be part of a business community that supports growth, advocacy, and trade for Kabwe-based enterprises.</p>
+    <button class="primary-cta" id="openRegisterBtn">Register as Member</button>
+  </div>
+</section>
 
-  <!-- BENEFITS -->
-  <section id="benefits" style="background:#f1f5f9;">
-    <h2>Membership Benefits</h2>
-    <div class="cards">
-      <div class="card"><i data-feather="briefcase"></i><h3>Business Exposure</h3><p>Feature your business on our directory and events.</p></div>
-      <div class="card"><i data-feather="award"></i><h3>Recognition</h3><p>Get certified as a member of a trusted institution.</p></div>
-      <div class="card"><i data-feather="book-open"></i><h3>Training</h3><p>Access exclusive workshops and capacity building programs.</p></div>
-    </div>
-  </section>
+<!-- WHY JOIN -->
+<section id="why" data-aos="fade-up">
+  <h2>Why Join the Chamber?</h2>
+  <p>Membership connects you with decision-makers, opens markets, and provides trusted representation.</p>
+  <div class="cards" data-aos="fade-up" data-aos-delay="80">
+    <div class="card"><i data-feather="trending-up"></i><h3>Growth</h3><p>Access opportunities, tenders, and partnerships that expand your business.</p></div>
+    <div class="card"><i data-feather="shield"></i><h3>Advocacy</h3><p>We engage with authorities to remove barriers and create enabling policy.</p></div>
+    <div class="card"><i data-feather="users"></i><h3>Community</h3><p>Networking with local and regional businesses and mentors.</p></div>
+  </div>
+</section>
 
-  <!-- PROGRAMMES -->
-  <section id="programmes">
-    <h2>Our Programmes</h2>
-    <p>We support our members with ongoing initiatives for innovation, growth, and trade expansion.</p>
-    <div class="cards">
-      <div class="card"><i data-feather="target"></i><h3>Entrepreneurship Hub</h3><p>Mentorship and funding programs for startups and SMEs.</p></div>
-      <div class="card"><i data-feather="globe"></i><h3>Trade Missions</h3><p>International exposure and networking opportunities.</p></div>
-      <div class="card"><i data-feather="briefcase"></i><h3>Corporate Leadership</h3><p>Workshops for executives to strengthen leadership skills.</p></div>
-    </div>
-  </section>
+<!-- BENEFITS -->
+<section id="benefits" style="background:#f7fafc" data-aos="fade-up">
+  <h2>Membership Benefits</h2>
+  <div class="cards" data-aos="fade-up" data-aos-delay="80">
+    <div class="card"><i data-feather="briefcase"></i><h3>Business Exposure</h3><p>Directory listing, event visibility and promotional support.</p></div>
+    <div class="card"><i data-feather="award"></i><h3>Recognition</h3><p>Validated membership certificate and credibility for your business.</p></div>
+    <div class="card"><i data-feather="book-open"></i><h3>Training</h3><p>Workshops, mentorship, and capacity building tailored for SMEs.</p></div>
+  </div>
+</section>
 
-  <!-- EVENTS -->
-  <section id="events" style="background:#f1f5f9;">
-    <h2>Upcoming Events</h2>
-    <div class="cards">
-      <div class="card"><i data-feather="calendar"></i><h3>Business Forum 2025</h3><p>Annual gathering of Zambia’s top entrepreneurs and innovators.</p></div>
-      <div class="card"><i data-feather="mic"></i><h3>Leadership Talks</h3><p>Monthly sessions featuring key thought leaders and mentors.</p></div>
-      <div class="card"><i data-feather="network"></i><h3>Networking Gala</h3><p>An exclusive event connecting local and international partners.</p></div>
-    </div>
-  </section>
+<!-- PROGRAMMES -->
+<section id="programmes" data-aos="fade-up">
+  <h2>Our Programmes</h2>
+  <p class="muted">Programs designed to strengthen local trade, entrepreneurship and skills development.</p>
+  <div class="cards" data-aos="fade-up" data-aos-delay="80">
+    <div class="card"><i data-feather="target"></i><h3>Entrepreneurship Hub</h3><p>Mentorship, seed support and pitch days for startups.</p></div>
+    <div class="card"><i data-feather="globe"></i><h3>Trade Missions</h3><p>Market access and international networking opportunities.</p></div>
+    <div class="card"><i data-feather="users"></i><h3>Leadership Series</h3><p>Executive workshops and strategy coaching for business leaders.</p></div>
+  </div>
+</section>
 
-  <!-- PARTNERS -->
-  <section id="partners">
-    <h2>Our Partners</h2>
-    <div class="partners">
-      <img src="partner1.png" alt="Partner 1">
-      <img src="partner2.png" alt="Partner 2">
-      <img src="partner3.png" alt="Partner 3">
-      <img src="partner4.png" alt="Partner 4">
-    </div>
-  </section>
+<!-- EVENTS -->
+<section id="events" style="background:#f7fafc" data-aos="fade-up">
+  <h2>Upcoming Events</h2>
+  <div class="cards" data-aos="fade-up" data-aos-delay="80">
+    <div class="card"><i data-feather="calendar"></i><h3>Business Forum 2025</h3><p>Annual summit for trade, policy and investment discussions.</p></div>
+    <div class="card"><i data-feather="mic"></i><h3>Leadership Talks</h3><p>Monthly speaker sessions with industry leaders.</p></div>
+    <div class="card"><i data-feather="network"></i><h3>Networking Gala</h3><p>Exclusive networking for chamber members and partners.</p></div>
+  </div>
+</section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <h2>Be Part of the Business Movement</h2>
-    <p>Take the first step towards growing your enterprise through the Chamber’s powerful ecosystem.</p>
-    <button onclick="openModal()">Join Now</button>
-  </section>
+<!-- PARTNERS -->
+<section id="partners" data-aos="fade-up">
+  <h2>Our Partners</h2>
+  <div class="partners" data-aos="fade-up" data-aos-delay="80">
+    <img src="partner1.png" alt="Partner 1" />
+    <img src="partner2.png" alt="Partner 2" />
+    <img src="partner3.png" alt="Partner 3" />
+    <img src="partner4.png" alt="Partner 4" />
+  </div>
+</section>
 
-</div>
+<!-- CTA -->
+<section class="cta" data-aos="fade-up">
+  <h2>Ready to join the Kabwe business movement?</h2>
+  <p class="muted">Register now and get immediate access to our member resources, events, and advocacy channels.</p>
+  <button class="primary-cta" id="openRegisterBtn2">Join Now</button>
+</section>
+
+<!-- Modal backdrop (blur + dim) -->
+<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true"></div>
+
 <!-- Membership Modal -->
-<div class="modal" id="membershipModal">
-  <div class="modal-content">
-    <!-- Left Panel -->
-    <div class="modal-left">
-      <h2>Kabwe Chamber Membership</h2>
-      <p>Join a network of entrepreneurs, SMEs, and institutions driving business growth in Kabwe. Our membership program gives access to events, training, advocacy, and exclusive resources.</p>
+<div id="membershipModal" class="membership-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="modal-card" role="document" aria-labelledby="modalTitle">
+
+    <!-- Left panel (visual / info) -->
+    <div class="modal-left" aria-hidden="false">
+      <div class="logo"><img src="logo.jpg" alt="logo" style="width:56px;border-radius:10px"></div>
+      <h2 id="modalTitle">Kabwe Chamber Membership</h2>
+      <p>Join a network of entrepreneurs, SMEs and institutions advancing business and trade in Kabwe. Membership gives you advocacy, training, market access, and credibility.</p>
+      <div class="muted">Tip: Your progress is saved automatically — you can return later to complete the form.</div>
     </div>
 
-    <!-- Center Panel - Steps -->
-    <div class="modal-center">
-      <div class="step active" data-step="0"><i data-feather="user"></i><span>Personal</span></div>
-      <div class="step" data-step="1"><i data-feather="briefcase"></i><span>Corporate</span></div>
-      <div class="step" data-step="2"><i data-feather="file-text"></i><span>Certificates</span></div>
-      <div class="step" data-step="3"><i data-feather="share-2"></i><span>Social Media</span></div>
-      <div class="step" data-step="4"><i data-feather="credit-card"></i><span>Payment</span></div>
+    <!-- Center step nav -->
+    <div class="modal-center" aria-hidden="false">
+      <div class="step active" data-step="0" title="Personal details"><i data-feather="user"></i><span>Personal</span></div>
+      <div class="step" data-step="1" title="Company details"><i data-feather="briefcase"></i><span>Corporate</span></div>
+      <div class="step" data-step="2" title="Certificates"><i data-feather="file-text"></i><span>Certificates</span></div>
+      <div class="step" data-step="3" title="Social media"><i data-feather="share-2"></i><span>Social</span></div>
+      <div class="step" data-step="4" title="Payment"><i data-feather="credit-card"></i><span>Payment</span>
+        <div class="step-indicator"><div class="step-progress" id="stepProgress"></div></div>
+      </div>
     </div>
 
-    <!-- Right Panel - Form -->
+    <!-- Right content -->
     <div class="modal-right">
-      <!-- Step 0: Personal Details -->
+      <!-- Steps (form pages) -->
+
+      <!-- Step 0: Personal -->
       <div class="form-step" data-step="0">
         <h3>Personal Details</h3>
         <div class="form-group">
-          <label>Full Name</label>
-          <input type="text" placeholder="John Doe">
+          <label for="fullName">Full name</label>
+          <input id="fullName" type="text" placeholder="John Doe">
         </div>
         <div class="form-group">
-          <label>Email</label>
-          <input type="email" placeholder="email@example.com">
+          <label for="personalEmail">Email</label>
+          <input id="personalEmail" type="email" placeholder="email@company.com">
         </div>
         <div class="form-group">
-          <label>Phone</label>
-          <input type="text" placeholder="+260 9XX XXX XXX">
-        </div>
-      </div>
-      <!-- Step 1: Corporate Details -->
-      <div class="form-step" data-step="1" style="display:none;">
-        <h3>Corporate Details</h3>
-        <div class="form-group">
-          <label>Company Name</label>
-          <input type="text" placeholder="Company Ltd">
-        </div>
-        <div class="form-group">
-          <label>Business Type</label>
-          <select>
-            <option>SME</option>
-            <option>Corporate</option>
-            <option>Startup</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Business Registration Number</label>
-          <input type="text" placeholder="XXXXXX">
-        </div>
-      </div>
-      <!-- Step 2: Certificates -->
-      <div class="form-step" data-step="2" style="display:none;">
-        <h3>Certificates</h3>
-        <div class="form-group">
-          <label>Upload Business Certificate</label>
-          <input type="file">
-        </div>
-        <div class="form-group">
-          <label>Upload Tax Certificate</label>
-          <input type="file">
-        </div>
-      </div>
-      <!-- Step 3: Social Media -->
-      <div class="form-step" data-step="3" style="display:none;">
-        <h3>Social Media</h3>
-        <div class="form-group">
-          <label>Facebook</label>
-          <input type="text" placeholder="facebook.com/yourbusiness">
-        </div>
-        <div class="form-group">
-          <label>Twitter</label>
-          <input type="text" placeholder="@yourhandle">
-        </div>
-        <div class="form-group">
-          <label>LinkedIn</label>
-          <input type="text" placeholder="linkedin.com/company">
-        </div>
-      </div>
-      <!-- Step 4: Payment -->
-      <div class="form-step" data-step="4" style="display:none;">
-        <h3>Payment</h3>
-        <div class="form-group">
-          <label>Membership Fee (ZMW)</label>
-          <input type="number" id="membershipFee" value="500" readonly>
-        </div>
-        <div class="form-group payment-options">
-          <input type="radio" id="mobile" name="payment" value="Mobile Banking" checked>
-          <label for="mobile">Mobile Banking</label>
-          <input type="radio" id="card" name="payment" value="Credit/Debit Card">
-          <label for="card">Credit/Debit Card</label>
-          <input type="radio" id="cash" name="payment" value="Cash/Proforma">
-          <label for="cash">Cash/Proforma</label>
-        </div>
-        <div id="invoice">
-          <h4>Proforma Invoice</h4>
-          <p>Amount: ZMW <span id="invoiceAmount">500</span></p>
-          <p>Reference: PMT-2025-001</p>
+          <label for="personalPhone">Phone (for mobile banking)</label>
+          <input id="personalPhone" type="tel" placeholder="+260 97X XXX XXX">
         </div>
       </div>
 
-      <!-- Navigation Buttons -->
-      <div class="nav-buttons">
-        <button id="prevBtn" onclick="nextPrev(-1)" disabled>Previous</button>
-        <button id="nextBtn" onclick="nextPrev(1)">Next</button>
+      <!-- Step 1: Corporate -->
+      <div class="form-step" data-step="1" style="display:none">
+        <h3>Corporate Details</h3>
+        <div class="form-group">
+          <label for="company">Company name</label>
+          <input id="company" type="text" placeholder="Company Ltd">
+        </div>
+        <div class="form-group">
+          <label for="businessType">Business type</label>
+          <select id="businessType"><option>SME</option><option>Corporate</option><option>Startup</option></select>
+        </div>
+        <div class="form-group">
+          <label for="regNumber">Registration number</label>
+          <input id="regNumber" type="text" placeholder="Registration / CR number">
+        </div>
       </div>
+
+      <!-- Step 2: Certificates -->
+      <div class="form-step" data-step="2" style="display:none">
+        <h3>Certificates</h3>
+        <div class="form-group">
+          <label>Business certificate</label>
+          <div class="file-input"><input id="certBusiness" type="file" /></div>
+        </div>
+        <div class="form-group">
+          <label>Tax certificate</label>
+          <div class="file-input"><input id="certTax" type="file" /></div>
+        </div>
+      </div>
+
+      <!-- Step 3: Social -->
+      <div class="form-step" data-step="3" style="display:none">
+        <h3>Social Media & Web</h3>
+        <div class="form-group">
+          <label for="fb">Facebook</label>
+          <input id="fb" type="text" placeholder="facebook.com/yourbusiness">
+        </div>
+        <div class="form-group">
+          <label for="twitter">Twitter</label>
+          <input id="twitter" type="text" placeholder="@handle">
+        </div>
+        <div class="form-group">
+          <label for="linkedin">LinkedIn</label>
+          <input id="linkedin" type="text" placeholder="linkedin.com/company/...">
+        </div>
+      </div>
+
+      <!-- Step 4: Payment -->
+      <div class="form-step" data-step="4" style="display:none">
+        <h3>Payment</h3>
+        <div class="form-group">
+          <label>Membership tier</label>
+          <select id="tierSelect">
+            <option value="500">SME — ZMW 500</option>
+            <option value="3000">Corporate — ZMW 3,000</option>
+            <option value="5000">Premium — ZMW 5,000</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Amount (ZMW)</label>
+          <input id="amount" type="number" value="500" readonly />
+        </div>
+
+        <div class="payment-options" id="paymentOptions">
+          <div class="payment-card selected" data-method="Mobile Banking">
+            <strong>Mobile Banking</strong>
+            <div class="muted">Enter phone to pay via mobile money</div>
+          </div>
+          <div class="payment-card" data-method="Card">
+            <strong>Credit / Debit Card</strong>
+            <div class="muted">Card processing (sample)</div>
+          </div>
+          <div class="payment-card" data-method="Cash/Proforma">
+            <strong>Cash / Proforma</strong>
+            <div class="muted">Generate proforma invoice</div>
+          </div>
+        </div>
+
+        <!-- Mobile banking input -->
+        <div class="form-group" id="mobileBankGroup">
+          <label for="mobileBankPhone">Mobile number for payment</label>
+          <input id="mobileBankPhone" type="tel" placeholder="+26097X XXX XXX">
+        </div>
+
+        <!-- Card placeholder -->
+        <div class="form-group" id="cardGroup" style="display:none">
+          <label>Card Holder</label>
+          <input id="cardName" type="text" placeholder="Name on card">
+          <label style="margin-top:8px">Card number</label>
+          <input id="cardNumber" type="text" placeholder="4242 4242 4242 4242">
+        </div>
+
+        <!-- Proforma -->
+        <div id="proforma">
+          <h4 style="margin:0 0 8px">Proforma Invoice</h4>
+          <div class="muted">Copy or download the proforma and complete payment at our office or designated bank.</div>
+          <div style="margin-top:10px"><strong>Invoice #</strong>: <span id="invoiceRef">PMT-2025-001</span></div>
+          <div><strong>Amount (ZMW):</strong> <span id="invoiceAmount">500</span></div>
+          <div style="margin-top:8px">
+            <button class="btn secondary" id="downloadPdfBtn">Download Proforma (PDF)</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- nav -->
+      <div class="nav-buttons">
+        <button class="btn ghost" id="prevBtn" disabled>← Previous</button>
+        <div style="display:flex;gap:8px">
+          <button class="btn secondary" id="saveBtn">Save</button>
+          <button class="btn primary" id="nextBtn">Next →</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <script>
-feather.replace();
-function openModal(){ document.getElementById('membershipModal').classList.add('show'); }
-let currentStep = 0;
-const steps = document.querySelectorAll('.form-step');
-const stepNavs = document.querySelectorAll('.step');
+  // initialize icons & AOS
+  feather.replace();
+  AOS.init({ duration:600, once:true });
 
-function showStep(step){
-  steps.forEach((s,i)=> s.style.display=i===step?'block':'none');
-  stepNavs.forEach((s,i)=> s.classList.toggle('active',i===step));
-  document.getElementById('prevBtn').disabled = step===0;
-  document.getElementById('nextBtn').innerText = step===steps.length-1?'Submit':'Next';
-  // Show invoice only on cash/proforma selection
-  if(step===4){
-    const invoice = document.getElementById('invoice');
-    const cashRadio = document.getElementById('cash');
-    invoice.style.display = cashRadio.checked?'block':'none';
-    document.querySelectorAll('input[name="payment"]').forEach(r=>{
-      r.addEventListener('change',()=>{ invoice.style.display = r.id==='cash'? 'block':'none'; });
+  // Sidebar toggle
+  const sidebar = document.getElementById('sidebar');
+  const toggle = document.getElementById('sidebarToggle');
+  toggle.addEventListener('click', ()=> {
+    sidebar.classList.toggle('open');
+    toggle.classList.toggle('open');
+  });
+
+  // Modal elements
+  const openBtns = [document.getElementById('openRegisterBtn'), document.getElementById('openRegisterBtn2')];
+  const modal = document.getElementById('membershipModal');
+  const backdrop = document.getElementById('modalBackdrop');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const saveBtn = document.getElementById('saveBtn');
+  const proformaBox = document.getElementById('proforma');
+  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
+
+  // All form steps & nav
+  const formSteps = Array.from(document.querySelectorAll('.form-step'));
+  const stepNavs = Array.from(document.querySelectorAll('.step'));
+  const stepProgress = document.getElementById('stepProgress');
+  let currentStep = 0;
+
+  // fields to autosave
+  const fields = [
+    'fullName','personalEmail','personalPhone',
+    'company','businessType','regNumber',
+    'fb','twitter','linkedin',
+    'tierSelect','amount','mobileBankPhone','cardName','cardNumber'
+  ];
+
+  // init from localStorage
+  function loadSaved(){
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      const saved = localStorage.getItem('member:'+id);
+      if(saved){
+        if(el.type==='file'){ /* skip file load */ }
+        else el.value = saved;
+      }
     });
+    // chosen payment method
+    const savedMethod = localStorage.getItem('member:paymentMethod');
+    if(savedMethod){
+      selectPaymentMethod(savedMethod);
+    }
   }
-}
-showStep(currentStep);
+  function saveAll(){
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      if(el.type==='file'){
+        // store filename only
+        const file = el.files?.[0];
+        if(file) localStorage.setItem('member:'+id, file.name);
+      } else {
+        localStorage.setItem('member:'+id, el.value || '');
+      }
+    });
+    // save step
+    localStorage.setItem('member:currentStep', currentStep);
+    const sel = document.querySelector('.payment-card.selected');
+    if(sel) localStorage.setItem('member:paymentMethod', sel.dataset.method || '');
+  }
 
-function nextPrev(n){
-  if(n===1 && currentStep===steps.length-1){ alert('Form submitted!'); return; }
-  currentStep += n;
-  if(currentStep<0) currentStep=0;
-  if(currentStep>=steps.length) currentStep=steps.length-1;
-  showStep(currentStep);
-}
+  // autosave when inputs change
+  document.addEventListener('input', e=>{
+    if(fields.includes(e.target.id)){
+      localStorage.setItem('member:'+e.target.id, e.target.value || '');
+    }
+  });
+
+  // step display
+  function showStep(index){
+    // clamp
+    index = Math.max(0, Math.min(formSteps.length-1, index));
+    currentStep = index;
+    formSteps.forEach((s,i)=> s.style.display = (i===index) ? 'block' : 'none');
+    stepNavs.forEach((n,i)=> {
+      n.classList.toggle('active', i===index);
+      n.classList.toggle('completed', i<index);
+    });
+    prevBtn.disabled = index===0;
+    nextBtn.textContent = index === formSteps.length-1 ? 'Submit' : 'Next →';
+    // update progress bar
+    const pct = Math.round(((index) / (formSteps.length-1))*100);
+    stepProgress.style.width = pct + '%';
+
+    // show/hide payment UI extras when on payment step
+    if(index === formSteps.length-1){
+      // load amount from tier
+      const amtEl = document.getElementById('amount');
+      const tier = document.getElementById('tierSelect').value;
+      amtEl.value = tier;
+      document.getElementById('invoiceAmount').textContent = parseFloat(tier).toLocaleString();
+      document.getElementById('membershipFee')?.setAttribute('value', tier); // if present elsewhere
+      // show/hide proforma based on chosen method
+      const chosen = document.querySelector('.payment-card.selected')?.dataset.method || 'Mobile Banking';
+      togglePaymentUI(chosen);
+    }
+    // save step index
+    localStorage.setItem('member:currentStep', index);
+  }
+
+  // next/prev handlers
+  prevBtn.addEventListener('click', ()=> {
+    if(currentStep>0){ showStep(currentStep-1); saveAll(); }
+  });
+  nextBtn.addEventListener('click', ()=> {
+    if(currentStep === formSteps.length-1){
+      // Submit (demo)
+      saveAll();
+      alert('✅ Membership form submitted. We will contact you with payment instructions.');
+      closeModal();
+    } else {
+      showStep(currentStep+1);
+      saveAll();
+    }
+  });
+
+  saveBtn.addEventListener('click', ()=> {
+    saveAll();
+    // visual confirmation
+    saveBtn.textContent = 'Saved';
+    setTimeout(()=> saveBtn.textContent = 'Save', 1200);
+  });
+
+  // open/close modal functions
+  function openModal(){
+    loadSaved();
+    // try to restore step
+    const savedIndex = parseInt(localStorage.getItem('member:currentStep') || '0', 10);
+    showStep(isNaN(savedIndex) ? 0 : savedIndex);
+    modal.classList.add('show');
+    backdrop.classList.add('show');
+    modal.setAttribute('aria-hidden','false');
+    backdrop.setAttribute('aria-hidden','false');
+    // initial proforma visibility
+    const pm = localStorage.getItem('member:paymentMethod') || 'Mobile Banking';
+    selectPaymentMethod(pm);
+  }
+  function closeModal(){
+    modal.classList.remove('show');
+    backdrop.classList.remove('show');
+    modal.setAttribute('aria-hidden','true');
+    backdrop.setAttribute('aria-hidden','true');
+  }
+
+  // wiring open buttons
+  openBtns.forEach(b => b?.addEventListener('click', (e)=>{
+    e.preventDefault();
+    openModal();
+  }));
+  // also allow clicking hero primary CTA
+  document.getElementById('openRegisterBtn').addEventListener('click', openModal);
+  document.getElementById('openRegisterBtn2').addEventListener('click', openModal);
+
+  // backdrop close on click outside (but keep modal open if click inside)
+  backdrop.addEventListener('click', closeModal);
+
+  // step nav click (allow jumping)
+  stepNavs.forEach((nav, idx)=>{
+    nav.addEventListener('click', ()=> {
+      showStep(idx);
+      saveAll();
+    });
+  });
+
+  // payment selection
+  const paymentCards = Array.from(document.querySelectorAll('.payment-card'));
+  function selectPaymentMethod(method){
+    paymentCards.forEach(pc=>{
+      pc.classList.toggle('selected', pc.dataset.method === method);
+    });
+    localStorage.setItem('member:paymentMethod', method);
+    togglePaymentUI(method);
+  }
+  paymentCards.forEach(pc=>{
+    pc.addEventListener('click', ()=> selectPaymentMethod(pc.dataset.method));
+  });
+
+  function togglePaymentUI(method){
+    // show mobile input for Mobile Banking, show card inputs for Card, show proforma for Cash
+    const mobileGroup = document.getElementById('mobileBankGroup');
+    const cardGroup = document.getElementById('cardGroup');
+    if(!mobileGroup || !cardGroup) return;
+    mobileGroup.style.display = method === 'Mobile Banking' ? 'block' : 'none';
+    cardGroup.style.display = method === 'Card' ? 'block' : 'none';
+    proformaBox.style.display = method === 'Cash/Proforma' ? 'block' : 'none';
+  }
+
+  // tier -> amount binding
+  const tierSelect = document.getElementById('tierSelect');
+  tierSelect.addEventListener('change', ()=>{
+    const amt = tierSelect.value;
+    document.getElementById('amount').value = amt;
+    document.getElementById('invoiceAmount').textContent = parseFloat(amt).toLocaleString();
+    localStorage.setItem('member:tier', amt);
+  });
+
+  // proforma PDF generation using jsPDF
+  downloadPdfBtn.addEventListener('click', async ()=>{
+    // gather minimal invoice data
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'A4' });
+    const name = document.getElementById('fullName').value || '—';
+    const company = document.getElementById('company').value || '—';
+    const amount = document.getElementById('amount').value || '0';
+    const ref = document.getElementById('invoiceRef').textContent || 'PMT-2025-001';
+    const date = new Date().toLocaleDateString();
+
+    doc.setFontSize(18); doc.text('Kabwe Chamber of Commerce & Industry', 40, 60);
+    doc.setFontSize(12); doc.text('Proforma Invoice', 40, 90);
+    doc.setFontSize(11); doc.text(`Invoice #: ${ref}`, 40, 120);
+    doc.text(`Date: ${date}`, 40, 136);
+    doc.setLineWidth(0.5); doc.line(40,150,555,150);
+
+    doc.setFontSize(11);
+    doc.text(`Bill To: ${name}`, 40, 180);
+    doc.text(`Company: ${company}`, 40, 196);
+
+    doc.text(`Description: Membership fee`, 40, 240);
+    doc.text(`Amount (ZMW): ${parseFloat(amount).toLocaleString()}`, 400, 240, null, null, 'right');
+
+    doc.setLineWidth(0.5); doc.line(40,260,555,260);
+    doc.setFontSize(12); doc.text(`Total: ZMW ${parseFloat(amount).toLocaleString()}`, 400, 286, null, null, 'right');
+
+    doc.setFontSize(10);
+    doc.text('Please make payment to Kabwe Chamber account or present this proforma at the Chamber office.', 40, 330);
+    doc.save(`proforma-${ref}.pdf`);
+  });
+
+  // restore saved values on load
+  document.addEventListener('DOMContentLoaded', ()=>{
+    // populate simple saved values
+    fields.forEach(id=>{
+      const el = document.getElementById(id);
+      if(!el) return;
+      const saved = localStorage.getItem('member:'+id);
+      if(saved && el.type !== 'file') el.value = saved;
+    });
+
+    // restore tier & amount
+    const savedTier = localStorage.getItem('member:tier');
+    if(savedTier) {
+      document.getElementById('tierSelect').value = savedTier;
+      document.getElementById('amount').value = savedTier;
+      document.getElementById('invoiceAmount').textContent = parseFloat(savedTier).toLocaleString();
+    }
+
+    // restore payment method & step
+    const savedMethod = localStorage.getItem('member:paymentMethod');
+    if(savedMethod) selectPaymentMethod(savedMethod);
+    const savedStep = parseInt(localStorage.getItem('member:currentStep') || '0', 10);
+    if(!isNaN(savedStep)) currentStep = savedStep;
+    // initial display (modal closed)
+    showStep(currentStep);
+  });
+
+  // keyboard accessibility: Esc to close modal
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape'){
+      if(modal.classList.contains('show')) closeModal();
+    }
+  });
 </script>
 
 </body>
