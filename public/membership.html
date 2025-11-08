@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kabwe Chamber Membership Registration</title>
+<link rel="icon" href="logo.jpg" type="image/jpg">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/feather-icons"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+<style>
+body{margin:0;font-family:'Open Sans',sans-serif;background:#f9fafc;color:#333;}
+h1,h2,h3{font-family:'Poppins',sans-serif;margin:0;}
+button{cursor:pointer;}
+/* Modal Container */
+.modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:1000; justify-content:center; align-items:center; }
+.modal.show { display:flex; }
+/* Modal Content */
+.modal-content { display:flex; background:#fff; width:90%; max-width:1200px; border-radius:12px; overflow:hidden; min-height:500px; }
+/* Left Panel */
+.modal-left { flex:1; background:url('membership-bg.jpg') center/cover no-repeat; color:#fff; display:flex; flex-direction:column; justify-content:center; padding:40px; }
+.modal-left h2 { font-size:2rem; margin-bottom:20px; }
+.modal-left p { font-size:1.1rem; line-height:1.6; }
+/* Center Panel - Step Navbar */
+.modal-center { flex:0.2; background:#f1f1f1; display:flex; flex-direction:column; justify-content:flex-start; align-items:center; padding:20px; }
+.step { text-align:center; margin-bottom:30px; cursor:pointer; opacity:0.5; transition:0.3s; }
+.step.active, .step.completed{ opacity:1; }
+.step i { font-size:1.8rem; margin-bottom:8px; }
+.step span { display:block; font-size:0.9rem; }
+/* Right Panel - Form Content */
+.modal-right { flex:1.5; padding:30px; overflow-y:auto; }
+.modal-right h3 { margin-bottom:15px; color:#0078d7; }
+.form-group { margin-bottom:15px; }
+.form-group label { display:block; margin-bottom:5px; font-weight:600; }
+.form-group input, .form-group select { width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; font-size:1rem; }
+/* Navigation Buttons */
+.modal-right .nav-buttons { display:flex; justify-content:space-between; margin-top:20px; }
+.modal-right button { padding:10px 20px; border:none; border-radius:8px; font-weight:600; background:#0078d7; color:#fff; transition:0.3s; }
+.modal-right button:hover { background:#005fa3; }
+/* Payment Section */
+.payment-options { display:flex; gap:15px; margin-bottom:20px; }
+.payment-options label { flex:1; background:#f1f1f1; padding:15px; border-radius:8px; text-align:center; cursor:pointer; transition:0.3s; }
+.payment-options input[type="radio"] { display:none; }
+.payment-options input[type="radio"]:checked + label { background:#0078d7; color:#fff; }
+/* Invoice */
+#invoice { margin-top:20px; padding:15px; background:#f9f9f9; border:1px solid #ccc; border-radius:8px; display:none; }
+@media(max-width:1024px){ .modal-content{flex-direction:column;} .modal-left,.modal-center,.modal-right{flex:none;width:100%;} .modal-center{flex-direction:row; justify-content:center; gap:10px;}}
+</style>
+</head>
+<body>
+
+<button onclick="openModal()">Register as Member</button>
+
+<!-- Membership Modal -->
+<div class="modal" id="membershipModal">
+  <div class="modal-content">
+    <!-- Left Panel -->
+    <div class="modal-left">
+      <h2>Kabwe Chamber Membership</h2>
+      <p>Join a network of entrepreneurs, SMEs, and institutions driving business growth in Kabwe. Our membership program gives access to events, training, advocacy, and exclusive resources.</p>
+    </div>
+
+    <!-- Center Panel - Steps -->
+    <div class="modal-center">
+      <div class="step active" data-step="0"><i data-feather="user"></i><span>Personal</span></div>
+      <div class="step" data-step="1"><i data-feather="briefcase"></i><span>Corporate</span></div>
+      <div class="step" data-step="2"><i data-feather="file-text"></i><span>Certificates</span></div>
+      <div class="step" data-step="3"><i data-feather="share-2"></i><span>Social Media</span></div>
+      <div class="step" data-step="4"><i data-feather="credit-card"></i><span>Payment</span></div>
+    </div>
+
+    <!-- Right Panel - Form -->
+    <div class="modal-right">
+      <!-- Step 0: Personal Details -->
+      <div class="form-step" data-step="0">
+        <h3>Personal Details</h3>
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" placeholder="John Doe">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" placeholder="+260 9XX XXX XXX">
+        </div>
+      </div>
+      <!-- Step 1: Corporate Details -->
+      <div class="form-step" data-step="1" style="display:none;">
+        <h3>Corporate Details</h3>
+        <div class="form-group">
+          <label>Company Name</label>
+          <input type="text" placeholder="Company Ltd">
+        </div>
+        <div class="form-group">
+          <label>Business Type</label>
+          <select>
+            <option>SME</option>
+            <option>Corporate</option>
+            <option>Startup</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Business Registration Number</label>
+          <input type="text" placeholder="XXXXXX">
+        </div>
+      </div>
+      <!-- Step 2: Certificates -->
+      <div class="form-step" data-step="2" style="display:none;">
+        <h3>Certificates</h3>
+        <div class="form-group">
+          <label>Upload Business Certificate</label>
+          <input type="file">
+        </div>
+        <div class="form-group">
+          <label>Upload Tax Certificate</label>
+          <input type="file">
+        </div>
+      </div>
+      <!-- Step 3: Social Media -->
+      <div class="form-step" data-step="3" style="display:none;">
+        <h3>Social Media</h3>
+        <div class="form-group">
+          <label>Facebook</label>
+          <input type="text" placeholder="facebook.com/yourbusiness">
+        </div>
+        <div class="form-group">
+          <label>Twitter</label>
+          <input type="text" placeholder="@yourhandle">
+        </div>
+        <div class="form-group">
+          <label>LinkedIn</label>
+          <input type="text" placeholder="linkedin.com/company">
+        </div>
+      </div>
+      <!-- Step 4: Payment -->
+      <div class="form-step" data-step="4" style="display:none;">
+        <h3>Payment</h3>
+        <div class="form-group">
+          <label>Membership Fee (ZMW)</label>
+          <input type="number" id="membershipFee" value="500" readonly>
+        </div>
+        <div class="form-group payment-options">
+          <input type="radio" id="mobile" name="payment" value="Mobile Banking" checked>
+          <label for="mobile">Mobile Banking</label>
+          <input type="radio" id="card" name="payment" value="Credit/Debit Card">
+          <label for="card">Credit/Debit Card</label>
+          <input type="radio" id="cash" name="payment" value="Cash/Proforma">
+          <label for="cash">Cash/Proforma</label>
+        </div>
+        <div id="invoice">
+          <h4>Proforma Invoice</h4>
+          <p>Amount: ZMW <span id="invoiceAmount">500</span></p>
+          <p>Reference: PMT-2025-001</p>
+        </div>
+      </div>
+
+      <!-- Navigation Buttons -->
+      <div class="nav-buttons">
+        <button id="prevBtn" onclick="nextPrev(-1)" disabled>Previous</button>
+        <button id="nextBtn" onclick="nextPrev(1)">Next</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+feather.replace();
+
+// Open Modal
+function openModal(){ document.getElementById('membershipModal').classList.add('show'); }
+
+// Multi-Step Form
+let currentStep = 0;
+const steps = document.querySelectorAll('.form-step');
+const stepNavs = document.querySelectorAll('.step');
+
+function showStep(step){
+  steps.forEach((s,i)=> s.style.display=i===step?'block':'none');
+  stepNavs.forEach((s,i)=> s.classList.toggle('active',i===step));
+  document.getElementById('prevBtn').disabled = step===0;
+  document.getElementById('nextBtn').innerText = step===steps.length-1?'Submit':'Next';
+  // Show invoice only on cash/proforma selection
+  if(step===4){
+    const invoice = document.getElementById('invoice');
+    const cashRadio = document.getElementById('cash');
+    invoice.style.display = cashRadio.checked?'block':'none';
+    document.querySelectorAll('input[name="payment"]').forEach(r=>{
+      r.addEventListener('change',()=>{ invoice.style.display = r.id==='cash'? 'block':'none'; });
+    });
+  }
+}
+showStep(currentStep);
+
+function nextPrev(n){
+  if(n===1 && currentStep===steps.length-1){ alert('Form submitted!'); return; }
+  currentStep += n;
+  if(currentStep<0) currentStep=0;
+  if(currentStep>=steps.length) currentStep=steps.length-1;
+  showStep(currentStep);
+}
+</script>
+
+</body>
+</html>
