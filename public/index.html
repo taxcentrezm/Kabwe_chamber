@@ -98,6 +98,83 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
 /* ===== Responsive ===== */
 @media(max-width:768px){ .about-wrapper{ flex-direction:column; } .form-card-grid{ grid-template-columns:1fr; } }
 
+  /* Container row */
+.stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* Chart column */
+.chart-col {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+/* Cards column */
+.cards-col {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* smaller gap between cards */
+}
+
+/* Summary cards styling */
+.cards-col .form-card {
+  padding: 15px 20px;        /* smaller padding */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  height: 120px;             /* compact height */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  font-size: 14px;           /* smaller font size */
+}
+
+/* Card icon styling */
+.cards-col .form-card i {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+/* Card title styling */
+.cards-col .form-card h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+/* Card value styling */
+.cards-col .form-card .stat-value {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Responsive: stack cards under chart on small screens */
+@media (max-width: 768px) {
+  .stats-row {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .chart-col, .cards-col {
+    max-width: 100%;
+  }
+  .cards-col {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .cards-col .form-card {
+    flex: 1 1 45%;
+    height: 100px;
+    font-size: 13px;
+  }
+}
+
 </style>
 </head>
 <body>
