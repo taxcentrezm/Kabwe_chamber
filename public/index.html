@@ -98,82 +98,71 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
 /* ===== Responsive ===== */
 @media(max-width:768px){ .about-wrapper{ flex-direction:column; } .form-card-grid{ grid-template-columns:1fr; } }
 
-  /* Container row */
+ /* Stats Section */
+.stats-section {
+  padding: 80px 20px;
+  background: #fff;
+}
+
+.stats-section .section-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
 .stats-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
+  gap: 40px;
   align-items: flex-start;
   justify-content: center;
+  margin-bottom: 60px;
 }
 
-/* Chart column */
 .chart-col {
   flex: 1;
   min-width: 300px;
   max-width: 600px;
 }
 
-/* Cards column */
 .cards-col {
+  display: flex;
+  flex-wrap: wrap;          /* allow multiple cards in row */
+  gap: 20px;
   flex: 1;
   min-width: 250px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* smaller gap between cards */
+  justify-content: flex-start;
 }
 
-/* Summary cards styling */
 .cards-col .form-card {
-  padding: 15px 20px;        /* smaller padding */
+  flex: 0 0 30%;            /* ~30% width */
+  min-width: 150px;          /* don't shrink too much */
+  max-width: 250px;
+  padding: 15px;
   border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  height: 120px;             /* compact height */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  font-size: 14px;           /* smaller font size */
+  color: #fff;
+  text-align: center;
+  box-sizing: border-box;
 }
 
-/* Card icon styling */
-.cards-col .form-card i {
-  font-size: 20px;
-  margin-bottom: 8px;
+/* Color Variants */
+.card-green { background: #4CAF50; }
+.card-orange { background: #FF9800; }
+.card-blue { background: #2196F3; }
+.card-purple { background: #9C27B0; }
+.card-red { background: #FF5722; }
+.card-teal { background: #009688; }
+.card-indigo { background: #3F51B5; }
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .cards-col .form-card { flex: 0 0 45%; }
 }
 
-/* Card title styling */
-.cards-col .form-card h3 {
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-/* Card value styling */
-.cards-col .form-card .stat-value {
-  font-weight: bold;
-  font-size: 18px;
-}
-
-/* Responsive: stack cards under chart on small screens */
 @media (max-width: 768px) {
-  .stats-row {
-    flex-direction: column;
-    gap: 20px;
-  }
-  .chart-col, .cards-col {
-    max-width: 100%;
-  }
-  .cards-col {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  .cards-col .form-card {
-    flex: 1 1 45%;
-    height: 100px;
-    font-size: 13px;
-  }
+  .stats-row { flex-direction: column; align-items: center; }
+  .cards-col .form-card { flex: 0 0 80%; }
 }
+
 
 </style>
 </head>
@@ -231,9 +220,8 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
   </div>
 </section>
 
-  <!-- Summary Cards Section -->
 <!-- Summary + Chart Section -->
-<section id="stats" data-aos="fade-up" style="padding:80px 20px; background:#fff;">
+<section id="stats" data-aos="fade-up" class="stats-section">
 
   <div class="section-header">
     <h1>Key Statistics</h1>
@@ -241,31 +229,31 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
   </div>
 
   <!-- First Row: Growth + Summary -->
-  <div class="stats-row" style="display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; justify-content:center; margin-bottom:60px;">
+  <div class="stats-row">
 
     <!-- Chart Column (Left) -->
-    <div class="chart-col" style="flex:1; min-width:300px; max-width:600px;">
+    <div class="chart-col">
       <canvas id="growthChart"></canvas>
     </div>
 
     <!-- Summary Cards Column (Right) -->
-    <div class="cards-col" style="flex:1; min-width:250px; display:flex; flex-direction:column; gap:20px;">
-      <div class="form-card" id="card-members" style="background:#4CAF50; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+    <div class="cards-col">
+      <div class="form-card card-green" id="card-members">
         <i data-feather="users"></i>
         <h3>Member Growth</h3>
         <p><span class="stat-value" id="statMembers">-</span> members</p>
       </div>
-      <div class="form-card" id="card-events" style="background:#FF9800; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+      <div class="form-card card-orange" id="card-events">
         <i data-feather="calendar"></i>
         <h3>Upcoming Events</h3>
         <p><span class="stat-value" id="statEvents">-</span> events</p>
       </div>
-      <div class="form-card" id="card-economic" style="background:#2196F3; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+      <div class="form-card card-blue" id="card-economic">
         <i data-feather="bar-chart-2"></i>
         <h3>Economic Impact</h3>
         <p><span class="stat-value" id="statImpact">-</span> ZMW</p>
       </div>
-      <div class="form-card" id="card-stock" style="background:#9C27B0; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+      <div class="form-card card-purple" id="card-stock">
         <i data-feather="trending-up"></i>
         <h3>Market Index (Sample)</h3>
         <p><span class="stat-value" id="statStock">-</span></p>
@@ -275,26 +263,26 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
   </div>
 
   <!-- Second Row: Revenue + New Metrics -->
-  <div class="stats-row" style="display:flex; flex-wrap:wrap; gap:40px; align-items:flex-start; justify-content:center;">
+  <div class="stats-row">
 
     <!-- Chart Column (Left) -->
-    <div class="chart-col" style="flex:1; min-width:300px; max-width:600px;">
+    <div class="chart-col">
       <canvas id="revenueChart"></canvas>
     </div>
 
     <!-- Summary Cards Column (Right) -->
-    <div class="cards-col" style="flex:1; min-width:250px; display:flex; flex-direction:column; gap:20px;">
-      <div class="form-card" id="card-registrations" style="background:#FF5722; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+    <div class="cards-col">
+      <div class="form-card card-red" id="card-registrations">
         <i data-feather="user-plus"></i>
         <h3>New Registrations</h3>
         <p><span class="stat-value" id="statRegistrations">-</span></p>
       </div>
-      <div class="form-card" id="card-revenue" style="background:#009688; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+      <div class="form-card card-teal" id="card-revenue">
         <i data-feather="dollar-sign"></i>
         <h3>Revenue</h3>
         <p>ZMW <span class="stat-value" id="statRevenue">-</span></p>
       </div>
-      <div class="form-card" id="card-active" style="background:#3F51B5; color:#fff; padding:15px; border-radius:10px; text-align:center;">
+      <div class="form-card card-indigo" id="card-active">
         <i data-feather="activity"></i>
         <h3>Active Members</h3>
         <p><span class="stat-value" id="statActive">-</span></p>
@@ -304,6 +292,7 @@ footer { background:var(--dark); color:#fff; padding:40px 20px; text-align:cente
   </div>
 
 </section>
+
 
 
 
