@@ -1,200 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kabwe Chamber ERP – Billing & Tax Returns</title>
-<link rel="icon" href="logo.jpg" type="image/jpg" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/feather-icons"></script>
-<style>
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:#fff;
-  color:#111;
-  display:flex;
-  min-height:100vh;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mongu Chamber ERP – Billing & Tax Returns</title>
+  <link rel="icon" href="logo.jpg" type="image/jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-/* Sidebar */
-.sidebar{
-  width:240px;
-  background:#ffffff;
-  padding:20px;
-  position:fixed;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  border-right:6px solid green;
-  border-right-style:double;
-  border-image:linear-gradient(to bottom,#008000,#ff0000,#000) 1;
-}
-.sidebar h2{color:#0078d7;text-align:center;margin-bottom:30px;}
-.sidebar a{
-  display:flex;align-items:center;gap:10px;
-  color:#111;text-decoration:none;
-  padding:10px 15px;border-radius:8px;transition:.3s;
-}
-.sidebar a:hover{background:#eaeaea;}
-.sidebar footer{color:#555;text-align:center;font-size:.8rem;}
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+      min-height: 100vh;
+    }
 
-/* Main */
-.main{
-  margin-left:240px;
-  padding:40px;
-  flex:1;
-  border-left:6px solid red;
-  border-left-style:double;
-  border-image:linear-gradient(to bottom,#008000,#ff0000,#000) 1;
-}
-h1{color:#0078d7;margin-bottom:10px;}
-.tabs{display:flex;gap:10px;margin-bottom:30px;}
-.tab{
-  background:#f5f5f5;
-  color:#111;
-  border:none;
-  padding:10px 20px;
-  border-radius:8px;
-  cursor:pointer;
-  transition:0.3s;
-}
-.tab.active, .tab:hover{background:#0078d7;color:#fff;}
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #ffffff;
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 6px solid green;
+      border-right-style: double;
+      border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1;
+    }
 
-.section{display:none;}
-.section.active{display:block;}
+    .sidebar h2 {
+      color: #0078d7;
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-/* Tables */
-table{
-  width:100%;border-collapse:collapse;margin-top:20px;
-  background:#f5f5f5;border-radius:10px;overflow:hidden;
-}
-th,td{padding:12px 15px;text-align:left;border-bottom:1px solid #ddd;}
-th{background:#0078d7;color:#fff;}
-tr:hover{background:#eaeaea;}
-button.action{
-  padding:6px 12px;
-  background:#0078d7;
-  border:none;
-  color:#fff;font-weight:600;border-radius:6px;
-  cursor:pointer;
-}
-button.action:hover{background:#005fa3;}
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #111;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: .3s;
+    }
 
-/* Chart */
-.chart-container{
-  background:#f5f5f5;border-radius:12px;
-  padding:20px;margin-top:40px;
-}
+    .sidebar a:hover {
+      background: #eaeaea;
+    }
 
-/* Modal */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;backdrop-filter:blur(5px);background:rgba(0,0,0,0.4);justify-content:center;align-items:center;z-index:1000;}
-.modal.show{display:flex;}
-.modal-content{
-  background:#fff;color:#111;border-radius:12px;
-  padding:30px;max-width:500px;width:90%;
-}
-.modal-content h3{margin-top:0;color:#0078d7;}
-.modal-content button{
-  margin-top:15px;padding:10px 20px;border:none;border-radius:8px;background:#0078d7;color:#fff;font-weight:600;cursor:pointer;
-}
-.modal-content button:hover{background:#005fa3;}
-</style>
+    .sidebar footer {
+      color: #555;
+      text-align: center;
+      font-size: .8rem;
+    }
+
+    /* Main */
+    .main {
+      margin-left: 240px;
+      padding: 40px;
+      flex: 1;
+      border-left: 6px solid red;
+      border-left-style: double;
+      border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1;
+    }
+
+    h1 {
+      color: #0078d7;
+      margin-bottom: 10px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      background: #f5f5f5;
+      color: #111;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .tab.active,
+    .tab:hover {
+      background: #0078d7;
+      color: #fff;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #f5f5f5;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #0078d7;
+      color: #fff;
+    }
+
+    tr:hover {
+      background: #eaeaea;
+    }
+
+    button.action {
+      padding: 6px 12px;
+      background: #0078d7;
+      border: none;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button.action:hover {
+      background: #005fa3;
+    }
+
+    /* Chart */
+    .chart-container {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      backdrop-filter: blur(5px);
+      background: rgba(0, 0, 0, 0.4);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      color: #111;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      color: #0078d7;
+    }
+
+    .modal-content button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: #0078d7;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .modal-content button:hover {
+      background: #005fa3;
+    }
+  </style>
 </head>
 
 <body>
-<!-- Sidebar -->
-<div class="sidebar">
-  <div>
-    <h2>KCCI ERP</h2>
-    <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
-    <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
-    <a href="#"><i data-feather="file-text"></i> Tax Returns</a>
-    <a href="erp.html"><i data-feather="settings"></i> Settings</a>
-  </div>
-  <footer>© 2025 Kabwe Chamber</footer>
-</div>
-
-<!-- Main -->
-<div class="main">
-  <h1>Billing & Tax Returns</h1>
-  <div class="tabs">
-    <button class="tab active" onclick="showSection('billing')">Billing</button>
-    <button class="tab" onclick="showSection('tax')">Tax Returns (ZRA iTX)</button>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h2>KCCI ERP</h2>
+      <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
+      <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
+      <a href="#"><i data-feather="file-text"></i> Tax Returns</a>
+      <a href="erp.html"><i data-feather="settings"></i> Settings</a>
+    </div>
+    <footer>© 2025 Mongu Chamber</footer>
   </div>
 
-  <!-- Billing Section -->
-  <div id="billing" class="section active">
-    <h2>Invoices</h2>
-    <table>
-      <thead>
-        <tr><th>Invoice ID</th><th>Member</th><th>Amount (ZMW)</th><th>Status</th><th>Date</th><th>Action</th></tr>
-      </thead>
-      <tbody id="invoiceTable"></tbody>
-    </table>
+  <!-- Main -->
+  <div class="main">
+    <h1>Billing & Tax Returns</h1>
+    <div class="tabs">
+      <button class="tab active" onclick="showSection('billing')">Billing</button>
+      <button class="tab" onclick="showSection('tax')">Tax Returns (ZRA iTX)</button>
+    </div>
 
-    <div class="chart-container">
-      <h3>Monthly Billing Summary</h3>
-      <canvas id="billingChart"></canvas>
+    <!-- Billing Section -->
+    <div id="billing" class="section active">
+      <h2>Invoices</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Invoice ID</th>
+            <th>Member</th>
+            <th>Amount (ZMW)</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="invoiceTable"></tbody>
+      </table>
+
+      <div class="chart-container">
+        <h3>Monthly Billing Summary</h3>
+        <canvas id="billingChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Tax Returns Section -->
+    <div id="tax" class="section">
+      <h2>iTX Tax Returns Portal</h2>
+      <p>Generate your chamber tax returns compatible with the ZRA iTX submission format.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Return ID</th>
+            <th>Period</th>
+            <th>Total Income (ZMW)</th>
+            <th>Tax Due</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TXR-001</td>
+            <td>Q1 2025</td>
+            <td>150000.00</td>
+            <td>22500.00</td>
+            <td>Filed</td>
+            <td><button class="action" onclick="generateITX()">Re-Generate</button></td>
+          </tr>
+          <tr>
+            <td>TXR-002</td>
+            <td>Q2 2025</td>
+            <td>175000.00</td>
+            <td>26250.00</td>
+            <td>Pending</td>
+            <td><button class="action" onclick="generateITX()">Generate</button></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <!-- Tax Returns Section -->
-  <div id="tax" class="section">
-    <h2>iTX Tax Returns Portal</h2>
-    <p>Generate your chamber tax returns compatible with the ZRA iTX submission format.</p>
-    <table>
-      <thead>
-        <tr><th>Return ID</th><th>Period</th><th>Total Income (ZMW)</th><th>Tax Due</th><th>Status</th><th>Action</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>TXR-001</td><td>Q1 2025</td><td>150000.00</td><td>22500.00</td><td>Filed</td>
-          <td><button class="action" onclick="generateITX()">Re-Generate</button></td>
-        </tr>
-        <tr>
-          <td>TXR-002</td><td>Q2 2025</td><td>175000.00</td><td>26250.00</td><td>Pending</td>
-          <td><button class="action" onclick="generateITX()">Generate</button></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Modal -->
+  <div id="itxModal" class="modal">
+    <div class="modal-content">
+      <h3>ZRA iTX Mock Return</h3>
+      <p>Your iTX XML has been generated successfully with simulated data.</p>
+      <pre id="itxData" style="background:#f5f5f5;padding:10px;border-radius:6px;overflow-x:auto;"></pre>
+      <button onclick="closeModal()">Close</button>
+    </div>
   </div>
-</div>
 
-<!-- Modal -->
-<div id="itxModal" class="modal">
-  <div class="modal-content">
-    <h3>ZRA iTX Mock Return</h3>
-    <p>Your iTX XML has been generated successfully with simulated data.</p>
-    <pre id="itxData" style="background:#f5f5f5;padding:10px;border-radius:6px;overflow-x:auto;"></pre>
-    <button onclick="closeModal()">Close</button>
-  </div>
-</div>
+  <script>
+    feather.replace();
 
-<script>
-feather.replace();
+    /* Navigation */
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
 
-/* Navigation */
-function showSection(id){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-}
-
-/* Mock Invoice Data */
-const invoices = [
-  {id:'INV001',member:'Chiluba Traders',amount:1200,status:'Paid',date:'2025-11-01'},
-  {id:'INV002',member:'Central Steel Ltd',amount:3500,status:'Pending',date:'2025-11-02'},
-  {id:'INV003',member:'Kwacha Agro',amount:2000,status:'Paid',date:'2025-11-03'},
-  {id:'INV004',member:'Mumbwa Textiles',amount:1700,status:'Pending',date:'2025-11-04'},
-];
-const invoiceTable=document.getElementById('invoiceTable');
-invoices.forEach(i=>{
-  invoiceTable.innerHTML+=`
+    /* Mock Invoice Data */
+    const invoices = [
+      { id: 'INV001', member: 'Chiluba Traders', amount: 1200, status: 'Paid', date: '2025-11-01' },
+      { id: 'INV002', member: 'Central Steel Ltd', amount: 3500, status: 'Pending', date: '2025-11-02' },
+      { id: 'INV003', member: 'Kwacha Agro', amount: 2000, status: 'Paid', date: '2025-11-03' },
+      { id: 'INV004', member: 'Mumbwa Textiles', amount: 1700, status: 'Pending', date: '2025-11-04' },
+    ];
+    const invoiceTable = document.getElementById('invoiceTable');
+    invoices.forEach(i => {
+      invoiceTable.innerHTML += `
     <tr>
       <td>${i.id}</td>
       <td>${i.member}</td>
@@ -203,32 +328,32 @@ invoices.forEach(i=>{
       <td>${i.date}</td>
       <td><button class="action" onclick="markPaid('${i.id}')">Mark Paid</button></td>
     </tr>`;
-});
+    });
 
-/* Mark Invoice as Paid */
-function markPaid(id){
-  const row=[...document.querySelectorAll('#invoiceTable tr')]
-    .find(r=>r.children[0].innerText===id);
-  if(row){row.children[3].innerText='Paid';row.children[5].innerHTML='<span style="color:lime">✔ Done</span>';}
-}
+    /* Mark Invoice as Paid */
+    function markPaid(id) {
+      const row = [...document.querySelectorAll('#invoiceTable tr')]
+        .find(r => r.children[0].innerText === id);
+      if (row) { row.children[3].innerText = 'Paid'; row.children[5].innerHTML = '<span style="color:lime">✔ Done</span>'; }
+    }
 
-/* Billing Chart */
-new Chart(document.getElementById('billingChart'),{
-  type:'bar',
-  data:{
-    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul'],
-    datasets:[{
-      label:'Billing (ZMW)',
-      data:[15000,25000,18000,30000,40000,35000,37000].map(d=>d.toFixed(2)),
-      backgroundColor:'#0078d7'
-    }]
-  },
-  options:{scales:{y:{beginAtZero:true}}}
-});
+    /* Billing Chart */
+    new Chart(document.getElementById('billingChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+        datasets: [{
+          label: 'Billing (ZMW)',
+          data: [15000, 25000, 18000, 30000, 40000, 35000, 37000].map(d => d.toFixed(2)),
+          backgroundColor: '#0078d7'
+        }]
+      },
+      options: { scales: { y: { beginAtZero: true } } }
+    });
 
-/* Mock ZRA iTX XML */
-function generateITX(){
-  const data=`<ZRAiTXReturn>
+    /* Mock ZRA iTX XML */
+    function generateITX() {
+      const data = `<ZRAiTXReturn>
   <TIN>1001234567</TIN>
   <Period>2025-Q2</Period>
   <GrossIncome>175000.00</GrossIncome>
@@ -236,13 +361,14 @@ function generateITX(){
   <Status>Generated</Status>
   <GeneratedOn>${new Date().toISOString()}</GeneratedOn>
 </ZRAiTXReturn>`;
-  document.getElementById('itxData').innerText=data;
-  document.getElementById('itxModal').classList.add('show');
-}
+      document.getElementById('itxData').innerText = data;
+      document.getElementById('itxModal').classList.add('show');
+    }
 
-function closeModal(){
-  document.getElementById('itxModal').classList.remove('show');
-}
-</script>
+    function closeModal() {
+      document.getElementById('itxModal').classList.remove('show');
+    }
+  </script>
 </body>
+
 </html>

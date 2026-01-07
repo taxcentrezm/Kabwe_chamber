@@ -1,184 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kabwe Chamber ERP – Members</title>
-<link rel="icon" href="logo.jpg" type="image/jpg" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/feather-icons"></script>
-<style>
-* { box-sizing: border-box; margin:0; padding:0; }
-body {
-  font-family:'Poppins',sans-serif;
-  background:#fff;
-  color:#111;
-  display:flex;
-  min-height:100vh;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mongu Chamber ERP – Members</title>
+  <link rel="icon" href="logo.jpg" type="image/jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* Sidebar */
-.sidebar{
-  width:240px;
-  background:#ffffff;
-  padding:20px;
-  position:fixed;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  border-right:6px solid green;
-  border-right-style:double;
-  border-image:linear-gradient(to bottom, #008000,#ff0000,#000) 1;
-}
-.sidebar h2{color:#0078d7;text-align:center;margin-bottom:30px;}
-.sidebar a{
-  display:flex;align-items:center;gap:10px;
-  color:#111;text-decoration:none;
-  padding:10px 15px;border-radius:8px;transition:.3s;
-}
-.sidebar a:hover{background:#eaeaea;}
-.sidebar footer{color:#555;text-align:center;font-size:.8rem;}
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+      min-height: 100vh;
+    }
 
-/* Main */
-.main{
-  margin-left:240px;
-  padding:40px;
-  flex:1;
-  border-left:6px solid red;
-  border-left-style:double;
-  border-image:linear-gradient(to bottom, #008000,#ff0000,#000) 1;
-}
-h1{color:#0078d7;margin-bottom:20px;}
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #ffffff;
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 6px solid green;
+      border-right-style: double;
+      border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1;
+    }
 
-/* Table */
-table{
-  width:100%;border-collapse:collapse;margin-top:20px;
-  background:#f5f5f5;border-radius:10px;overflow:hidden;
-}
-th,td{padding:12px 15px;text-align:left;border-bottom:1px solid #ddd;}
-th{background:#0078d7;color:#fff;}
-tr:hover{background:#eaeaea;}
-a.member-link{color:#0078d7;text-decoration:none;font-weight:600;}
-a.member-link:hover{text-decoration:underline;}
+    .sidebar h2 {
+      color: #0078d7;
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-/* Modal */
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);
-  justify-content:center;align-items:center;z-index:1000;}
-.modal.show{display:flex;}
-.modal-content{
-  background:#fff;color:#111;border-radius:12px;
-  padding:25px;max-width:700px;width:90%;overflow-y:auto;max-height:90vh;
-}
-.modal-content h2{color:#0078d7;margin-top:0;}
-.modal-content button{
-  background:#0078d7;color:#fff;border:none;padding:10px 20px;
-  border-radius:8px;margin-top:15px;cursor:pointer;font-weight:600;
-}
-.modal-content button:hover{background:#005fa3;}
-.modal pre{
-  background:#f5f5f5;padding:10px;border-radius:6px;overflow-x:auto;
-}
-.chart-container{
-  margin-top:20px;background:#f5f5f5;border-radius:10px;padding:15px;
-}
-</style>
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #111;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: .3s;
+    }
+
+    .sidebar a:hover {
+      background: #eaeaea;
+    }
+
+    .sidebar footer {
+      color: #555;
+      text-align: center;
+      font-size: .8rem;
+    }
+
+    /* Main */
+    .main {
+      margin-left: 240px;
+      padding: 40px;
+      flex: 1;
+      border-left: 6px solid red;
+      border-left-style: double;
+      border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1;
+    }
+
+    h1 {
+      color: #0078d7;
+      margin-bottom: 20px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #f5f5f5;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background: #0078d7;
+      color: #fff;
+    }
+
+    tr:hover {
+      background: #eaeaea;
+    }
+
+    a.member-link {
+      color: #0078d7;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a.member-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      color: #111;
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 700px;
+      width: 90%;
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+
+    .modal-content h2 {
+      color: #0078d7;
+      margin-top: 0;
+    }
+
+    .modal-content button {
+      background: #0078d7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      margin-top: 15px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .modal-content button:hover {
+      background: #005fa3;
+    }
+
+    .modal pre {
+      background: #f5f5f5;
+      padding: 10px;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+
+    .chart-container {
+      margin-top: 20px;
+      background: #f5f5f5;
+      border-radius: 10px;
+      padding: 15px;
+    }
+  </style>
 </head>
 
 <body>
-<!-- Sidebar -->
-<div class="sidebar">
-  <div>
-    <h2>KCCI ERP</h2>
-    <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
-    <a href="members.html"><i data-feather="users"></i> Members</a>
-    <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
-    <a href="reports.html"><i data-feather="file-text"></i> Reports</a>
-  </div>
-  <footer>© 2025 Kabwe Chamber</footer>
-</div>
-
-<!-- Main -->
-<div class="main">
-  <h1>Members Directory</h1>
-  <table>
-    <thead>
-      <tr><th>Member ID</th><th>Name</th><th>Company</th><th>Joined</th><th>Status</th><th>Account Balance (ZMW)</th></tr>
-    </thead>
-    <tbody id="membersTable"></tbody>
-  </table>
-</div>
-
-<!-- Modal -->
-<div id="memberModal" class="modal">
-  <div class="modal-content">
-    <h2 id="modalName"></h2>
-    <p><strong>Member ID:</strong> <span id="modalId"></span></p>
-    <p><strong>Company:</strong> <span id="modalCompany"></span></p>
-    <p><strong>Status:</strong> <span id="modalStatus"></span></p>
-    <p><strong>Account Balance:</strong> <span id="modalBalance"></span> ZMW</p>
-
-    <div class="chart-container">
-      <h3>Transaction History</h3>
-      <canvas id="memberChart"></canvas>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div>
+      <h2>KCCI ERP</h2>
+      <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
+      <a href="members.html"><i data-feather="users"></i> Members</a>
+      <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
+      <a href="reports.html"><i data-feather="file-text"></i> Reports</a>
     </div>
-
-    <h3 style="margin-top:20px;">Recent Transactions</h3>
-    <pre id="modalTransactions"></pre>
-    <button onclick="closeModal()">Close</button>
+    <footer>© 2025 Mongu Chamber</footer>
   </div>
-</div>
 
-<script>
-feather.replace();
+  <!-- Main -->
+  <div class="main">
+    <h1>Members Directory</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Member ID</th>
+          <th>Name</th>
+          <th>Company</th>
+          <th>Joined</th>
+          <th>Status</th>
+          <th>Account Balance (ZMW)</th>
+        </tr>
+      </thead>
+      <tbody id="membersTable"></tbody>
+    </table>
+  </div>
 
-const members = [
-  {
-    id:'MEM001',
-    name:'Chiluba Traders',
-    company:'Chiluba Traders Ltd.',
-    joined:'2022-05-10',
-    status:'Active',
-    balance:3500,
-    transactions:[
-      {date:'2025-10-01',type:'Subscription',amount:1200},
-      {date:'2025-08-20',type:'Renewal',amount:800},
-      {date:'2025-07-15',type:'Workshop Fee',amount:500}
-    ]
-  },
-  {
-    id:'MEM002',
-    name:'Central Steel Ltd',
-    company:'Central Steel Manufacturing',
-    joined:'2021-11-22',
-    status:'Pending',
-    balance:1500,
-    transactions:[
-      {date:'2025-09-12',type:'Annual Fee',amount:1000},
-      {date:'2025-07-28',type:'Event',amount:300}
-    ]
-  },
-  {
-    id:'MEM003',
-    name:'Kwacha Agro',
-    company:'Kwacha Agro Processing',
-    joined:'2020-09-18',
-    status:'Active',
-    balance:5200,
-    transactions:[
-      {date:'2025-10-05',type:'Subscription',amount:2000},
-      {date:'2025-08-15',type:'Training',amount:1500},
-      {date:'2025-06-10',type:'Consultation',amount:1700}
-    ]
-  }
-];
+  <!-- Modal -->
+  <div id="memberModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalName"></h2>
+      <p><strong>Member ID:</strong> <span id="modalId"></span></p>
+      <p><strong>Company:</strong> <span id="modalCompany"></span></p>
+      <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+      <p><strong>Account Balance:</strong> <span id="modalBalance"></span> ZMW</p>
 
-// Populate members table
-const membersTable = document.getElementById('membersTable');
-members.forEach(m=>{
-  membersTable.innerHTML+=`
+      <div class="chart-container">
+        <h3>Transaction History</h3>
+        <canvas id="memberChart"></canvas>
+      </div>
+
+      <h3 style="margin-top:20px;">Recent Transactions</h3>
+      <pre id="modalTransactions"></pre>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    feather.replace();
+
+    const members = [
+      {
+        id: 'MEM001',
+        name: 'Chiluba Traders',
+        company: 'Chiluba Traders Ltd.',
+        joined: '2022-05-10',
+        status: 'Active',
+        balance: 3500,
+        transactions: [
+          { date: '2025-10-01', type: 'Subscription', amount: 1200 },
+          { date: '2025-08-20', type: 'Renewal', amount: 800 },
+          { date: '2025-07-15', type: 'Workshop Fee', amount: 500 }
+        ]
+      },
+      {
+        id: 'MEM002',
+        name: 'Central Steel Ltd',
+        company: 'Central Steel Manufacturing',
+        joined: '2021-11-22',
+        status: 'Pending',
+        balance: 1500,
+        transactions: [
+          { date: '2025-09-12', type: 'Annual Fee', amount: 1000 },
+          { date: '2025-07-28', type: 'Event', amount: 300 }
+        ]
+      },
+      {
+        id: 'MEM003',
+        name: 'Kwacha Agro',
+        company: 'Kwacha Agro Processing',
+        joined: '2020-09-18',
+        status: 'Active',
+        balance: 5200,
+        transactions: [
+          { date: '2025-10-05', type: 'Subscription', amount: 2000 },
+          { date: '2025-08-15', type: 'Training', amount: 1500 },
+          { date: '2025-06-10', type: 'Consultation', amount: 1700 }
+        ]
+      }
+    ];
+
+    // Populate members table
+    const membersTable = document.getElementById('membersTable');
+    members.forEach(m => {
+      membersTable.innerHTML += `
     <tr>
       <td><a href="#" class="member-link" onclick="viewMember('${m.id}')">${m.id}</a></td>
       <td>${m.name}</td>
@@ -187,45 +290,46 @@ members.forEach(m=>{
       <td>${m.status}</td>
       <td>${m.balance.toFixed(2)}</td>
     </tr>`;
-});
+    });
 
-function viewMember(id){
-  const member = members.find(m=>m.id===id);
-  if(!member)return;
-  document.getElementById('modalName').innerText=member.name;
-  document.getElementById('modalId').innerText=member.id;
-  document.getElementById('modalCompany').innerText=member.company;
-  document.getElementById('modalStatus').innerText=member.status;
-  document.getElementById('modalBalance').innerText=member.balance.toFixed(2);
+    function viewMember(id) {
+      const member = members.find(m => m.id === id);
+      if (!member) return;
+      document.getElementById('modalName').innerText = member.name;
+      document.getElementById('modalId').innerText = member.id;
+      document.getElementById('modalCompany').innerText = member.company;
+      document.getElementById('modalStatus').innerText = member.status;
+      document.getElementById('modalBalance').innerText = member.balance.toFixed(2);
 
-  let transText = member.transactions.map(t=>`${t.date} - ${t.type} : ZMW ${t.amount.toFixed(2)}`).join('\n');
-  document.getElementById('modalTransactions').innerText=transText;
+      let transText = member.transactions.map(t => `${t.date} - ${t.type} : ZMW ${t.amount.toFixed(2)}`).join('\n');
+      document.getElementById('modalTransactions').innerText = transText;
 
-  // Draw chart
-  const ctx = document.getElementById('memberChart');
-  new Chart(ctx,{
-    type:'line',
-    data:{
-      labels:member.transactions.map(t=>t.date),
-      datasets:[{
-        label:'Payments (ZMW)',
-        data:member.transactions.map(t=>t.amount.toFixed(2)),
-        borderColor:'#0078d7',
-        backgroundColor:'rgba(0,120,215,0.2)',
-        fill:true,
-        tension:0.3
-      }]
-    },
-    options:{scales:{y:{beginAtZero:true}}}
-  });
+      // Draw chart
+      const ctx = document.getElementById('memberChart');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: member.transactions.map(t => t.date),
+          datasets: [{
+            label: 'Payments (ZMW)',
+            data: member.transactions.map(t => t.amount.toFixed(2)),
+            borderColor: '#0078d7',
+            backgroundColor: 'rgba(0,120,215,0.2)',
+            fill: true,
+            tension: 0.3
+          }]
+        },
+        options: { scales: { y: { beginAtZero: true } } }
+      });
 
-  document.getElementById('memberModal').classList.add('show');
-}
+      document.getElementById('memberModal').classList.add('show');
+    }
 
-function closeModal(){
-  document.getElementById('memberModal').classList.remove('show');
-  document.getElementById('memberChart').getContext('2d').clearRect(0,0,400,200);
-}
-</script>
+    function closeModal() {
+      document.getElementById('memberModal').classList.remove('show');
+      document.getElementById('memberChart').getContext('2d').clearRect(0, 0, 400, 200);
+    }
+  </script>
 </body>
+
 </html>

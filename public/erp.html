@@ -1,118 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Kabwe Chamber ERP System</title>
-<link rel="icon" href="logo.jpg" type="image/jpg" />
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/feather-icons"></script>
-<style>
-  * { box-sizing: border-box; margin:0; padding:0; }
-  body {
-    font-family: 'Poppins', sans-serif;
-    background: #fff;
-    color: #111;
-    display: flex;
-    min-height: 100vh;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mongu Chamber ERP System</title>
+  <link rel="icon" href="logo.jpg" type="image/jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  /* Sidebar */
-  .sidebar {
-    width: 240px;
-    background: #ffffff;
-    padding: 20px;
-    position: fixed;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-right: 6px solid green;
-    border-right-style: double;
-    border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1;
-  }
-  .sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #0078d7;
-  }
-  .sidebar a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #111;
-    text-decoration: none;
-    padding: 10px 15px;
-    border-radius: 8px;
-    transition: 0.3s;
-  }
-  .sidebar a:hover { background: #eaeaea; }
-  .sidebar footer {
-    font-size: 0.8rem;
-    color: #555;
-    text-align: center;
-  }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
+      color: #111;
+      display: flex;
+      min-height: 100vh;
+    }
 
-  /* Main */
-  .main {
-    margin-left: 240px;
-    padding: 40px;
-    flex-grow: 1;
-    border-left: 6px solid red;
-    border-left-style: double;
-    border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1
-  }
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: #ffffff;
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 6px solid green;
+      border-right-style: double;
+      border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1;
+    }
 
-  .dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  .dashboard-header h1 { color: #0078d7; }
-  .summary-cards {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  .card {
-    background: #f5f5f5;
-    border-radius: 12px;
-    padding: 20px;
-    flex: 1;
-    min-width: 250px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: 0.3s;
-  }
-  .card:hover { transform: translateY(-3px); }
-  .card h3 { margin:0 0 10px; color: #0078d7; }
-  .card p { font-size: 1.5rem; margin:0; }
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #0078d7;
+    }
 
-  /* Charts */
-  .charts { display: flex; flex-wrap: wrap; gap:30px; margin-top:40px; }
-  .chart-container {
-    background: #f5f5f5;
-    border-radius:12px;
-    padding:20px;
-    flex:1;
-    min-width:400px;
-  }
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #111;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
 
-  /* Table */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 40px;
-    background: #f5f5f5;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  th, td { padding: 15px; border-bottom:1px solid #ddd; text-align:left; }
-  th { background: #0078d7; color: #fff; }
-  tr:hover { background: #eaeaea; }
-</style>
+    .sidebar a:hover {
+      background: #eaeaea;
+    }
+
+    .sidebar footer {
+      font-size: 0.8rem;
+      color: #555;
+      text-align: center;
+    }
+
+    /* Main */
+    .main {
+      margin-left: 240px;
+      padding: 40px;
+      flex-grow: 1;
+      border-left: 6px solid red;
+      border-left-style: double;
+      border-image: linear-gradient(to bottom, #008000, #ff0000, #000) 1
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-header h1 {
+      color: #0078d7;
+    }
+
+    .summary-cards {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .card {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      min-width: 250px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      color: #0078d7;
+    }
+
+    .card p {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    /* Charts */
+    .charts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .chart-container {
+      background: #f5f5f5;
+      border-radius: 12px;
+      padding: 20px;
+      flex: 1;
+      min-width: 400px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 40px;
+      background: #f5f5f5;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #0078d7;
+      color: #fff;
+    }
+
+    tr:hover {
+      background: #eaeaea;
+    }
+  </style>
 </head>
 
 <body>
@@ -127,7 +174,7 @@
       <a href="taxreturns.html"><i data-feather="file-text"></i> Tax Returns</a>
       <a href="settings.html"><i data-feather="settings"></i> Settings</a>
     </div>
-    <footer>© 2025 Kabwe Chamber</footer>
+    <footer>© 2025 Mongu Chamber</footer>
   </div>
 
   <!-- Main -->
@@ -138,10 +185,22 @@
     </div>
 
     <div class="summary-cards">
-      <div class="card"><h3>Total Members</h3><p>325.00</p></div>
-      <div class="card"><h3>Active Subscriptions</h3><p>285.00</p></div>
-      <div class="card"><h3>Revenue (ZMW)</h3><p>124500.00</p></div>
-      <div class="card"><h3>Pending Invoices</h3><p>12.00</p></div>
+      <div class="card">
+        <h3>Total Members</h3>
+        <p>325.00</p>
+      </div>
+      <div class="card">
+        <h3>Active Subscriptions</h3>
+        <p>285.00</p>
+      </div>
+      <div class="card">
+        <h3>Revenue (ZMW)</h3>
+        <p>124500.00</p>
+      </div>
+      <div class="card">
+        <h3>Pending Invoices</h3>
+        <p>12.00</p>
+      </div>
     </div>
 
     <div class="charts">
@@ -167,9 +226,27 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>#INV001</td><td>Chiluba Traders</td><td>1200.00</td><td>Paid</td><td>2025-11-01</td></tr>
-        <tr><td>#INV002</td><td>Central Steel Ltd</td><td>3500.00</td><td>Pending</td><td>2025-11-02</td></tr>
-        <tr><td>#INV003</td><td>Kwacha Agro</td><td>2000.00</td><td>Paid</td><td>2025-11-03</td></tr>
+        <tr>
+          <td>#INV001</td>
+          <td>Chiluba Traders</td>
+          <td>1200.00</td>
+          <td>Paid</td>
+          <td>2025-11-01</td>
+        </tr>
+        <tr>
+          <td>#INV002</td>
+          <td>Central Steel Ltd</td>
+          <td>3500.00</td>
+          <td>Pending</td>
+          <td>2025-11-02</td>
+        </tr>
+        <tr>
+          <td>#INV003</td>
+          <td>Kwacha Agro</td>
+          <td>2000.00</td>
+          <td>Paid</td>
+          <td>2025-11-03</td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -182,33 +259,34 @@
     new Chart(revenueCtx, {
       type: 'line',
       data: {
-        labels: ['Jan','Feb','Mar','Apr','May','Jun'],
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
         datasets: [{
           label: 'Revenue (ZMW)',
-          data: [20000,30000,25000,40000,50000,60000].map(n => n.toFixed(2)),
+          data: [20000, 30000, 25000, 40000, 50000, 60000].map(n => n.toFixed(2)),
           borderColor: '#0078d7',
           backgroundColor: 'rgba(0,120,215,0.2)',
           fill: true,
-          tension:0.3
+          tension: 0.3
         }]
       },
-      options:{ scales:{ y:{ beginAtZero:true } } }
+      options: { scales: { y: { beginAtZero: true } } }
     });
 
     // Members Chart
     const membersCtx = document.getElementById('membersChart');
     new Chart(membersCtx, {
-      type:'bar',
-      data:{
-        labels:['2020','2021','2022','2023','2024','2025'],
-        datasets:[{
-          label:'Members',
-          data:[100,150,220,280,320,350].map(n => n.toFixed(2)),
-          backgroundColor:'#0078d7'
+      type: 'bar',
+      data: {
+        labels: ['2020', '2021', '2022', '2023', '2024', '2025'],
+        datasets: [{
+          label: 'Members',
+          data: [100, 150, 220, 280, 320, 350].map(n => n.toFixed(2)),
+          backgroundColor: '#0078d7'
         }]
       },
-      options:{ scales:{ y:{ beginAtZero:true } } }
+      options: { scales: { y: { beginAtZero: true } } }
     });
   </script>
 </body>
+
 </html>

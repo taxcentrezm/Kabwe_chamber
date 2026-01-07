@@ -1,201 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kabwe Chamber ERP - Reports</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/feather-icons"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-:root {
-  --green: #008000;
-  --red: #ff0000;
-  --black: #000000;
-  --blue: #0078d7;
-  --bg-light: #fff;
-  --card-bg: #f5f5f5;
-}
-body{
-  margin:0;
-  font-family:'Open Sans',sans-serif;
-  background:var(--bg-light);
-  color:#111;
-  display:flex;
-  min-height:100vh;
-  scroll-behavior:smooth;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mongu Chamber ERP - Reports</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --green: #008000;
+      --red: #ff0000;
+      --black: #000000;
+      --blue: #0078d7;
+      --bg-light: #fff;
+      --card-bg: #f5f5f5;
+    }
 
-/* Sidebar */
-.sidebar{
-  width:240px;
-  background:var(--bg-light);
-  padding:20px;
-  position:fixed;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  border-right:10px solid var(--green);
-  border-image:linear-gradient(to bottom,var(--green),var(--red),var(--black)) 1;
-}
-.sidebar h2{color:var(--blue);text-align:center;margin-bottom:30px;}
-.sidebar a{
-  display:flex;align-items:center;gap:10px;
-  color:#111;text-decoration:none;
-  padding:10px 15px;border-radius:8px;transition:.3s;
-}
-.sidebar a:hover{background:#eaeaea;}
-.sidebar footer{color:#555;text-align:center;font-size:.8rem;}
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--bg-light);
+      color: #111;
+      display: flex;
+      min-height: 100vh;
+      scroll-behavior: smooth;
+    }
 
-/* Main */
-.main{
-  margin-left:240px;
-  padding:40px;
-  flex:1;
-  border-left:6px solid var(--red);
-  border-left-style: double;
-  border-image:linear-gradient(to bottom,var(--green),var(--red),var(--black)) 1;
-}
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: var(--bg-light);
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 10px solid var(--green);
+      border-image: linear-gradient(to bottom, var(--green), var(--red), var(--black)) 1;
+    }
 
-/* Header */
-.section-header{text-align:center;margin-bottom:50px;}
-.section-header h1{font-size:2.5rem;color:var(--blue);}
-.section-header p{font-size:1.1rem;color:#555;}
+    .sidebar h2 {
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-/* Stats Cards */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;max-width:1200px;margin:0 auto 50px auto;}
-.stat-card{background:var(--card-bg);color:#111;padding:20px;border-radius:12px;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,0.05);transition:transform 0.3s;}
-.stat-card:hover{transform:translateY(-5px);}
-.stat-card h3{font-size:1.3rem;margin-bottom:10px;}
-.stat-card p{font-size:1.1rem;}
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #111;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: .3s;
+    }
 
-/* Charts */
-.chart-section{max-width:1200px;margin:0 auto 50px auto;padding:0 20px;}
-.chart-container{background:var(--card-bg);padding:20px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.05);margin-bottom:30px;}
-.chart-container h3{margin-bottom:15px;font-size:1.2rem;color:var(--blue);}
+    .sidebar a:hover {
+      background: #eaeaea;
+    }
 
-/* Table */
-.table-wrapper{max-width:1200px;margin:0 auto;overflow-x:auto;padding:20px;}
-table{width:100%;border-collapse:collapse;margin-bottom:40px;background:var(--card-bg);border-radius:10px;overflow:hidden;}
-th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left;}
-th{background:var(--blue);color:#fff;}
+    .sidebar footer {
+      color: #555;
+      text-align: center;
+      font-size: .8rem;
+    }
 
-/* Responsive */
-@media(max-width:768px){.stats-grid{grid-template-columns:1fr;}}
-</style>
+    /* Main */
+    .main {
+      margin-left: 240px;
+      padding: 40px;
+      flex: 1;
+      border-left: 6px solid var(--red);
+      border-left-style: double;
+      border-image: linear-gradient(to bottom, var(--green), var(--red), var(--black)) 1;
+    }
+
+    /* Header */
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-header h1 {
+      font-size: 2.5rem;
+      color: var(--blue);
+    }
+
+    .section-header p {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto 50px auto;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      color: #111;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+
+    .stat-card p {
+      font-size: 1.1rem;
+    }
+
+    /* Charts */
+    .chart-section {
+      max-width: 1200px;
+      margin: 0 auto 50px auto;
+      padding: 0 20px;
+    }
+
+    .chart-container {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+    }
+
+    .chart-container h3 {
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+      color: var(--blue);
+    }
+
+    /* Table */
+    .table-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow-x: auto;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    /* Responsive */
+    @media(max-width:768px) {
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="sidebar">
-  <div>
-    <h2>KCCI ERP</h2>
-    <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
-    <a href="reports.html"><i data-feather="bar-chart-2"></i> Reports</a>
-    <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
-    <a href="accounting.html"><i data-feather="file-text"></i> Accounting</a>
-  </div>
-  <footer>© 2025 Kabwe Chamber</footer>
-</div>
-
-<div class="main">
-<section class="section-header">
-  <h1>ERP Reports & Analytics</h1>
-  <p>Overview of members, invoices, revenue, and taxes collected for Kabwe Chamber.</p>
-</section>
-
-<!-- Summary Stats -->
-<div class="stats-grid">
-  <div class="stat-card">
-    <h3>Total Members</h3>
-    <p id="statMembers">-</p>
-  </div>
-  <div class="stat-card">
-    <h3>Total Revenue (ZMW)</h3>
-    <p id="statRevenue">-</p>
-  </div>
-  <div class="stat-card">
-    <h3>Tax Collected (iTX)</h3>
-    <p id="statTax">-</p>
-  </div>
-  <div class="stat-card">
-    <h3>Invoices Paid</h3>
-    <p id="statPaid">-</p>
-  </div>
-  <div class="stat-card">
-    <h3>Invoices Unpaid</h3>
-    <p id="statUnpaid">-</p>
-  </div>
-</div>
-
-<!-- Charts -->
-<div class="chart-section" style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; max-width:1200px; margin:0 auto 50px auto;">
-  
-  <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
-    <h3>Revenue by Month</h3>
-    <canvas id="revenueChart"></canvas>
+  <div class="sidebar">
+    <div>
+      <h2>KCCI ERP</h2>
+      <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
+      <a href="reports.html"><i data-feather="bar-chart-2"></i> Reports</a>
+      <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
+      <a href="accounting.html"><i data-feather="file-text"></i> Accounting</a>
+    </div>
+    <footer>© 2025 Mongu Chamber</footer>
   </div>
 
-  <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
-    <h3>Tax Collected by Month</h3>
-    <canvas id="taxChart"></canvas>
+  <div class="main">
+    <section class="section-header">
+      <h1>ERP Reports & Analytics</h1>
+      <p>Overview of members, invoices, revenue, and taxes collected for Mongu Chamber.</p>
+    </section>
+
+    <!-- Summary Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total Members</h3>
+        <p id="statMembers">-</p>
+      </div>
+      <div class="stat-card">
+        <h3>Total Revenue (ZMW)</h3>
+        <p id="statRevenue">-</p>
+      </div>
+      <div class="stat-card">
+        <h3>Tax Collected (iTX)</h3>
+        <p id="statTax">-</p>
+      </div>
+      <div class="stat-card">
+        <h3>Invoices Paid</h3>
+        <p id="statPaid">-</p>
+      </div>
+      <div class="stat-card">
+        <h3>Invoices Unpaid</h3>
+        <p id="statUnpaid">-</p>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="chart-section"
+      style="display:flex; gap:20px; flex-wrap:wrap; justify-content:center; max-width:1200px; margin:0 auto 50px auto;">
+
+      <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
+        <h3>Revenue by Month</h3>
+        <canvas id="revenueChart"></canvas>
+      </div>
+
+      <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
+        <h3>Tax Collected by Month</h3>
+        <canvas id="taxChart"></canvas>
+      </div>
+
+      <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
+        <h3>Invoice Status</h3>
+        <canvas id="invoiceStatusChart"></canvas>
+      </div>
+
+    </div>
+
+    <!-- Recent Invoices Table -->
+    <div class="table-wrapper">
+      <h3>Recent Invoices</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Invoice ID</th>
+            <th>Member</th>
+            <th>Date</th>
+            <th>Amount (ZMW)</th>
+            <th>Tax (iTX)</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="invoiceTableBody"></tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="chart-container" style="flex:1 1 300px; max-width:400px; height:300px;">
-    <h3>Invoice Status</h3>
-    <canvas id="invoiceStatusChart"></canvas>
-  </div>
+  <script>
+    feather.replace();
 
-</div>
+    // ===== MOCK DATA =====
+    const invoices = [
+      { id: 'INV001', member: 'John Banda', date: '2025-11-01', amount: 1500, tax: 150, status: 'Paid' },
+      { id: 'INV002', member: 'Mary Phiri', date: '2025-11-05', amount: 2000, tax: 200, status: 'Unpaid' },
+      { id: 'INV003', member: 'Peter Zulu', date: '2025-11-07', amount: 1200, tax: 120, status: 'Paid' },
+      { id: 'INV004', member: 'Grace Mwansa', date: '2025-11-10', amount: 2500, tax: 250, status: 'Unpaid' },
+      { id: 'INV005', member: 'James Lungu', date: '2025-11-12', amount: 1800, tax: 180, status: 'Paid' }
+    ];
 
-<!-- Recent Invoices Table -->
-<div class="table-wrapper">
-<h3>Recent Invoices</h3>
-<table>
-<thead>
-<tr>
-<th>Invoice ID</th>
-<th>Member</th>
-<th>Date</th>
-<th>Amount (ZMW)</th>
-<th>Tax (iTX)</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody id="invoiceTableBody"></tbody>
-</table>
-</div>
-</div>
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const revenueData = [120000, 150000, 135000, 170000, 190000, 210000];
+    const taxData = revenueData.map(r => r * 0.1);
+    const paidInvoices = invoices.filter(i => i.status === 'Paid').length;
+    const unpaidInvoices = invoices.filter(i => i.status === 'Unpaid').length;
 
-<script>
-feather.replace();
+    // Populate summary
+    document.getElementById('statMembers').textContent = '1,234';
+    document.getElementById('statRevenue').textContent = revenueData.reduce((a, b) => a + b, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('statTax').textContent = taxData.reduce((a, b) => a + b, 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    document.getElementById('statPaid').textContent = paidInvoices;
+    document.getElementById('statUnpaid').textContent = unpaidInvoices;
 
-// ===== MOCK DATA =====
-const invoices = [
-  {id:'INV001', member:'John Banda', date:'2025-11-01', amount:1500, tax:150, status:'Paid'},
-  {id:'INV002', member:'Mary Phiri', date:'2025-11-05', amount:2000, tax:200, status:'Unpaid'},
-  {id:'INV003', member:'Peter Zulu', date:'2025-11-07', amount:1200, tax:120, status:'Paid'},
-  {id:'INV004', member:'Grace Mwansa', date:'2025-11-10', amount:2500, tax:250, status:'Unpaid'},
-  {id:'INV005', member:'James Lungu', date:'2025-11-12', amount:1800, tax:180, status:'Paid'}
-];
-
-const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const revenueData = [120000,150000,135000,170000,190000,210000];
-const taxData = revenueData.map(r=>r*0.1);
-const paidInvoices = invoices.filter(i=>i.status==='Paid').length;
-const unpaidInvoices = invoices.filter(i=>i.status==='Unpaid').length;
-
-// Populate summary
-document.getElementById('statMembers').textContent = '1,234';
-document.getElementById('statRevenue').textContent = revenueData.reduce((a,b)=>a+b,0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-document.getElementById('statTax').textContent = taxData.reduce((a,b)=>a+b,0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-document.getElementById('statPaid').textContent = paidInvoices;
-document.getElementById('statUnpaid').textContent = unpaidInvoices;
-
-// Populate invoices table
-const invoiceBody = document.getElementById('invoiceTableBody');
-invoices.forEach(inv=>{
-  invoiceBody.innerHTML += `<tr>
+    // Populate invoices table
+    const invoiceBody = document.getElementById('invoiceTableBody');
+    invoices.forEach(inv => {
+      invoiceBody.innerHTML += `<tr>
     <td>${inv.id}</td>
     <td>${inv.member}</td>
     <td>${inv.date}</td>
@@ -203,58 +307,59 @@ invoices.forEach(inv=>{
     <td>${inv.tax.toFixed(2)}</td>
     <td>${inv.status}</td>
   </tr>`;
-});
+    });
 
-// Revenue Chart
-const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
-new Chart(ctxRevenue, {
-  type:'line',
-  data:{
-    labels:months.slice(0,6),
-    datasets:[{
-      label:'Revenue (ZMW)',
-      data:revenueData,
-      borderColor:'#1E4E8C',
-      backgroundColor:'rgba(30,78,140,0.2)',
-      tension:0.3
-    }]
-  },
-  options:{
-    responsive:true,
-    maintainAspectRatio:false, // important to fit container
-    plugins:{legend:{display:false}}
-  }
-});
+    // Revenue Chart
+    const ctxRevenue = document.getElementById('revenueChart').getContext('2d');
+    new Chart(ctxRevenue, {
+      type: 'line',
+      data: {
+        labels: months.slice(0, 6),
+        datasets: [{
+          label: 'Revenue (ZMW)',
+          data: revenueData,
+          borderColor: '#1E4E8C',
+          backgroundColor: 'rgba(30,78,140,0.2)',
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // important to fit container
+        plugins: { legend: { display: false } }
+      }
+    });
 
-// Tax Chart
-const ctxTax = document.getElementById('taxChart').getContext('2d');
-new Chart(ctxTax,{
-  type:'bar',
-  data:{
-    labels:months.slice(0,6),
-    datasets:[{label:'Tax Collected (iTX)', data:taxData, backgroundColor:'#ff9800'}]
-  },
-  options:{
-    responsive:true,
-    maintainAspectRatio:false, // fit container
-    plugins:{legend:{position:'top'}}
-  }
-});
+    // Tax Chart
+    const ctxTax = document.getElementById('taxChart').getContext('2d');
+    new Chart(ctxTax, {
+      type: 'bar',
+      data: {
+        labels: months.slice(0, 6),
+        datasets: [{ label: 'Tax Collected (iTX)', data: taxData, backgroundColor: '#ff9800' }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // fit container
+        plugins: { legend: { position: 'top' } }
+      }
+    });
 
-// Invoice Status Doughnut Chart
-const ctxInvoiceStatus = document.getElementById('invoiceStatusChart').getContext('2d');
-new Chart(ctxInvoiceStatus,{
-  type:'doughnut',
-  data:{
-    labels:['Paid','Unpaid'],
-    datasets:[{data:[paidInvoices,unpaidInvoices], backgroundColor:['#4CAF50','#e53935']}]
-  },
-  options:{
-    responsive:true,
-    maintainAspectRatio:false, // fit container
-    plugins:{legend:{position:'bottom'}}
-  }
-});
-</script>
+    // Invoice Status Doughnut Chart
+    const ctxInvoiceStatus = document.getElementById('invoiceStatusChart').getContext('2d');
+    new Chart(ctxInvoiceStatus, {
+      type: 'doughnut',
+      data: {
+        labels: ['Paid', 'Unpaid'],
+        datasets: [{ data: [paidInvoices, unpaidInvoices], backgroundColor: ['#4CAF50', '#e53935'] }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false, // fit container
+        plugins: { legend: { position: 'bottom' } }
+      }
+    });
+  </script>
 </body>
+
 </html>

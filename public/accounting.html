@@ -1,227 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kabwe Chamber ERP - Accounting</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/feather-icons"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-:root {
-  --green: #008000;
-  --red: #ff0000;
-  --black: #000000;
-  --blue: #0078d7;
-  --dark: #111;
-  --bg-light: #fff;
-  --bg-table: #f5f5f5;
-}
-body{
-  margin:0;
-  font-family:'Open Sans',sans-serif;
-  background:var(--bg-light);
-  color:#111;
-  scroll-behavior:smooth;
-  display:flex;
-  min-height:100vh;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mongu Chamber ERP - Accounting</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --green: #008000;
+      --red: #ff0000;
+      --black: #000000;
+      --blue: #0078d7;
+      --dark: #111;
+      --bg-light: #fff;
+      --bg-table: #f5f5f5;
+    }
 
-/* Sidebar */
-.sidebar{
-  width:240px;
-  background:var(--bg-light);
-  padding:20px;
-  position:fixed;
-  height:100%;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  border-right:6px solid var(--green);
-  border-image:linear-gradient(to bottom,var(--green),var(--red),var(--black)) 1;
-}
-.sidebar h2{color:var(--blue);text-align:center;margin-bottom:30px;}
-.sidebar a{
-  display:flex;align-items:center;gap:10px;
-  color:#111;text-decoration:none;
-  padding:10px 15px;border-radius:8px;transition:.3s;
-}
-.sidebar a:hover{background:#eaeaea;}
-.sidebar footer{color:#555;text-align:center;font-size:.8rem;}
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--bg-light);
+      color: #111;
+      scroll-behavior: smooth;
+      display: flex;
+      min-height: 100vh;
+    }
 
-/* Main */
-.main{
-  margin-left:240px;
-  padding:40px;
-  flex:1;
-  border-left:6px solid var(--red);
-  border-image:linear-gradient(to bottom,var(--green),var(--red),var(--black)) 1;
-}
-h1,h2,h3{font-family:'Poppins',sans-serif;color:#111;}
-h2{text-align:center;margin-bottom:40px;}
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: var(--bg-light);
+      padding: 20px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 6px solid var(--green);
+      border-image: linear-gradient(to bottom, var(--green), var(--red), var(--black)) 1;
+    }
 
-/* Tables */
-.table-wrapper{max-width:1200px;margin:0 auto;overflow-x:auto;padding:20px;}
-table{width:100%;border-collapse:collapse;margin-bottom:40px;background:var(--bg-table);border-radius:10px;overflow:hidden;}
-th,td{padding:12px;border-bottom:1px solid #ddd;text-align:left;}
-th{background:var(--blue);color:#fff;}
-.account-link{cursor:pointer;color:#0078d7;}
-.account-link:hover{text-decoration:underline;}
+    .sidebar h2 {
+      color: var(--blue);
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-/* Modal */
-.modal {
-  display:none;
-  position:fixed;
-  z-index:1500;
-  left:0;top:0;width:100%;height:100%;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(5px);
-  justify-content:center;
-  align-items:center;
-}
-.modal-content{
-  background:var(--bg-light);
-  padding:25px;
-  border-radius:12px;
-  width:90%;
-  max-width:800px;
-  max-height:90%;
-  overflow-y:auto;
-  box-shadow:0 0 20px rgba(0,0,0,0.2);
-  color:#111;
-}
-.modal-close{
-  color:var(--blue);
-  float:right;
-  font-size:28px;
-  cursor:pointer;
-}
-.double-entry{display:flex;gap:20px;margin-top:20px;}
-.double-entry .debit,.double-entry .credit{flex:1;background:#f5f5f5;padding:15px;border-radius:10px;}
-.double-entry h3{margin-top:0;color:#0078d7;}
-.double-entry ul{list-style:none;padding:0;margin:0;}
-.double-entry li{margin-bottom:8px;}
-@media(max-width:768px){.double-entry{flex-direction:column;}}
-</style>
+    .sidebar a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #111;
+      text-decoration: none;
+      padding: 10px 15px;
+      border-radius: 8px;
+      transition: .3s;
+    }
+
+    .sidebar a:hover {
+      background: #eaeaea;
+    }
+
+    .sidebar footer {
+      color: #555;
+      text-align: center;
+      font-size: .8rem;
+    }
+
+    /* Main */
+    .main {
+      margin-left: 240px;
+      padding: 40px;
+      flex: 1;
+      border-left: 6px solid var(--red);
+      border-image: linear-gradient(to bottom, var(--green), var(--red), var(--black)) 1;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: 'Poppins', sans-serif;
+      color: #111;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow-x: auto;
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      background: var(--bg-table);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .account-link {
+      cursor: pointer;
+      color: #0078d7;
+    }
+
+    .account-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1500;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--bg-light);
+      padding: 25px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90%;
+      overflow-y: auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      color: #111;
+    }
+
+    .modal-close {
+      color: var(--blue);
+      float: right;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .double-entry {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .double-entry .debit,
+    .double-entry .credit {
+      flex: 1;
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .double-entry h3 {
+      margin-top: 0;
+      color: #0078d7;
+    }
+
+    .double-entry ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .double-entry li {
+      margin-bottom: 8px;
+    }
+
+    @media(max-width:768px) {
+      .double-entry {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="sidebar">
-  <div>
-    <h2>KCCI ERP</h2>
-    <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
-    <a href="accounting.html"><i data-feather="bar-chart-2"></i> Accounting</a>
-    <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
-    <a href="reports.html"><i data-feather="file-text"></i> Reports</a>
+  <div class="sidebar">
+    <div>
+      <h2>KCCI ERP</h2>
+      <a href="erp.html"><i data-feather="home"></i> Dashboard</a>
+      <a href="accounting.html"><i data-feather="bar-chart-2"></i> Accounting</a>
+      <a href="billing.html"><i data-feather="credit-card"></i> Billing</a>
+      <a href="reports.html"><i data-feather="file-text"></i> Reports</a>
+    </div>
+    <footer>© 2025 Mongu Chamber</footer>
   </div>
-  <footer>© 2025 Kabwe Chamber</footer>
-</div>
 
-<div class="main">
-<h2>Accounting Dashboard</h2>
+  <div class="main">
+    <h2>Accounting Dashboard</h2>
 
-<!-- Balance Sheet -->
-<div class="table-wrapper">
-<h3>Balance Sheet</h3>
-<table>
-<thead><tr><th>Account</th><th>Type</th><th>Amount (ZMW)</th></tr></thead>
-<tbody id="balanceSheetBody"></tbody>
-</table>
-</div>
-
-<!-- Trial Balance -->
-<div class="table-wrapper">
-<h3>Trial Balance</h3>
-<table>
-<thead><tr><th>Account</th><th>Debit</th><th>Credit</th></tr></thead>
-<tbody id="trialBalanceBody"></tbody>
-</table>
-</div>
-
-<!-- Nominal Journal -->
-<div class="table-wrapper">
-<h3>Nominal Journal</h3>
-<table>
-<thead><tr><th>Date</th><th>Account</th><th>Debit</th><th>Credit</th><th>Description</th></tr></thead>
-<tbody id="journalBody"></tbody>
-</table>
-</div>
-
-<!-- Ledger Drilldown Modal -->
-<div id="ledgerModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close">&times;</span>
-    <h2 id="modalAccount">Account Name</h2>
-    <div class="modal-body">
+    <!-- Balance Sheet -->
+    <div class="table-wrapper">
+      <h3>Balance Sheet</h3>
       <table>
-        <thead><tr><th>Date</th><th>Debit</th><th>Credit</th><th>Description</th></tr></thead>
-        <tbody id="modalLedgerBody"></tbody>
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>Type</th>
+            <th>Amount (ZMW)</th>
+          </tr>
+        </thead>
+        <tbody id="balanceSheetBody"></tbody>
       </table>
-      <div class="double-entry">
-        <div class="debit">
-          <h3>Debit Entries</h3>
-          <ul id="modalDebitList"></ul>
-        </div>
-        <div class="credit">
-          <h3>Credit Entries</h3>
-          <ul id="modalCreditList"></ul>
+    </div>
+
+    <!-- Trial Balance -->
+    <div class="table-wrapper">
+      <h3>Trial Balance</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Account</th>
+            <th>Debit</th>
+            <th>Credit</th>
+          </tr>
+        </thead>
+        <tbody id="trialBalanceBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Nominal Journal -->
+    <div class="table-wrapper">
+      <h3>Nominal Journal</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Account</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody id="journalBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Ledger Drilldown Modal -->
+    <div id="ledgerModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close">&times;</span>
+        <h2 id="modalAccount">Account Name</h2>
+        <div class="modal-body">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody id="modalLedgerBody"></tbody>
+          </table>
+          <div class="double-entry">
+            <div class="debit">
+              <h3>Debit Entries</h3>
+              <ul id="modalDebitList"></ul>
+            </div>
+            <div class="credit">
+              <h3>Credit Entries</h3>
+              <ul id="modalCreditList"></ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
 
-<script>
-feather.replace();
+    <script>
+      feather.replace();
 
-// ===== MOCK DATA =====
-const balanceSheet = [
-  {account:'Cash',type:'Asset',amount:50000},
-  {account:'Accounts Receivable',type:'Asset',amount:20000},
-  {account:'Accounts Payable',type:'Liability',amount:15000},
-  {account:'Capital',type:'Equity',amount:55000}
-];
+      // ===== MOCK DATA =====
+      const balanceSheet = [
+        { account: 'Cash', type: 'Asset', amount: 50000 },
+        { account: 'Accounts Receivable', type: 'Asset', amount: 20000 },
+        { account: 'Accounts Payable', type: 'Liability', amount: 15000 },
+        { account: 'Capital', type: 'Equity', amount: 55000 }
+      ];
 
-const trialBalance = [
-  {account:'Cash',debit:50000,credit:0},
-  {account:'Accounts Receivable',debit:20000,credit:0},
-  {account:'Accounts Payable',debit:0,credit:15000},
-  {account:'Capital',debit:0,credit:55000}
-];
+      const trialBalance = [
+        { account: 'Cash', debit: 50000, credit: 0 },
+        { account: 'Accounts Receivable', debit: 20000, credit: 0 },
+        { account: 'Accounts Payable', debit: 0, credit: 15000 },
+        { account: 'Capital', debit: 0, credit: 55000 }
+      ];
 
-const journals = [
-  {date:'2025-11-01',account:'Cash',debit:50000,credit:0,desc:'Initial cash deposit'},
-  {date:'2025-11-02',account:'Accounts Receivable',debit:20000,credit:0,desc:'Invoice sent'},
-  {date:'2025-11-03',account:'Accounts Payable',debit:0,credit:15000,desc:'Vendor payment'},
-  {date:'2025-11-04',account:'Capital',debit:0,credit:55000,desc:'Owner investment'}
-];
+      const journals = [
+        { date: '2025-11-01', account: 'Cash', debit: 50000, credit: 0, desc: 'Initial cash deposit' },
+        { date: '2025-11-02', account: 'Accounts Receivable', debit: 20000, credit: 0, desc: 'Invoice sent' },
+        { date: '2025-11-03', account: 'Accounts Payable', debit: 0, credit: 15000, desc: 'Vendor payment' },
+        { date: '2025-11-04', account: 'Capital', debit: 0, credit: 55000, desc: 'Owner investment' }
+      ];
 
-// ===== Populate Balance Sheet =====
-const bsBody = document.getElementById('balanceSheetBody');
-balanceSheet.forEach(row=>{
-  bsBody.innerHTML += `
+      // ===== Populate Balance Sheet =====
+      const bsBody = document.getElementById('balanceSheetBody');
+      balanceSheet.forEach(row => {
+        bsBody.innerHTML += `
     <tr>
       <td><span class="account-link" data-account="${row.account}">${row.account}</span></td>
       <td>${row.type}</td>
       <td>${row.amount.toFixed(2)}</td>
     </tr>`;
-});
+      });
 
-// ===== Populate Trial Balance =====
-const tbBody = document.getElementById('trialBalanceBody');
-trialBalance.forEach(row=>{
-  tbBody.innerHTML += `
+      // ===== Populate Trial Balance =====
+      const tbBody = document.getElementById('trialBalanceBody');
+      trialBalance.forEach(row => {
+        tbBody.innerHTML += `
     <tr>
       <td><span class="account-link" data-account="${row.account}">${row.account}</span></td>
       <td>${row.debit.toFixed(2)}</td>
       <td>${row.credit.toFixed(2)}</td>
     </tr>`;
-});
+      });
 
-// ===== Populate Nominal Journal =====
-const journalBody = document.getElementById('journalBody');
-journals.forEach(j=>{
-  journalBody.innerHTML += `
+      // ===== Populate Nominal Journal =====
+      const journalBody = document.getElementById('journalBody');
+      journals.forEach(j => {
+        journalBody.innerHTML += `
     <tr>
       <td>${j.date}</td>
       <td>${j.account}</td>
@@ -229,43 +354,44 @@ journals.forEach(j=>{
       <td>${j.credit.toFixed(2)}</td>
       <td>${j.desc}</td>
     </tr>`;
-});
+      });
 
-// ===== Ledger Drilldown Modal =====
-const ledgerModal = document.getElementById('ledgerModal');
-const modalClose = document.querySelector('.modal-close');
-const modalAccount = document.getElementById('modalAccount');
-const modalLedgerBody = document.getElementById('modalLedgerBody');
-const modalDebitList = document.getElementById('modalDebitList');
-const modalCreditList = document.getElementById('modalCreditList');
+      // ===== Ledger Drilldown Modal =====
+      const ledgerModal = document.getElementById('ledgerModal');
+      const modalClose = document.querySelector('.modal-close');
+      const modalAccount = document.getElementById('modalAccount');
+      const modalLedgerBody = document.getElementById('modalLedgerBody');
+      const modalDebitList = document.getElementById('modalDebitList');
+      const modalCreditList = document.getElementById('modalCreditList');
 
-document.querySelectorAll('.account-link').forEach(el=>{
-  el.addEventListener('click', ()=>{
-    const accountName = el.dataset.account;
-    modalAccount.textContent = accountName;
-    modalLedgerBody.innerHTML = '';
-    modalDebitList.innerHTML = '';
-    modalCreditList.innerHTML = '';
+      document.querySelectorAll('.account-link').forEach(el => {
+        el.addEventListener('click', () => {
+          const accountName = el.dataset.account;
+          modalAccount.textContent = accountName;
+          modalLedgerBody.innerHTML = '';
+          modalDebitList.innerHTML = '';
+          modalCreditList.innerHTML = '';
 
-    const filtered = journals.filter(j => j.account === accountName);
-    filtered.forEach(j=>{
-      modalLedgerBody.innerHTML += `
+          const filtered = journals.filter(j => j.account === accountName);
+          filtered.forEach(j => {
+            modalLedgerBody.innerHTML += `
         <tr>
           <td>${j.date}</td>
-          <td>${j.debit>0? j.debit.toFixed(2):''}</td>
-          <td>${j.credit>0? j.credit.toFixed(2):''}</td>
+          <td>${j.debit > 0 ? j.debit.toFixed(2) : ''}</td>
+          <td>${j.credit > 0 ? j.credit.toFixed(2) : ''}</td>
           <td>${j.desc}</td>
         </tr>`;
-      if(j.debit>0) modalDebitList.innerHTML += `<li>${j.date} — ZMW ${j.debit.toFixed(2)}</li>`;
-      if(j.credit>0) modalCreditList.innerHTML += `<li>${j.date} — ZMW ${j.credit.toFixed(2)}</li>`;
-    });
+            if (j.debit > 0) modalDebitList.innerHTML += `<li>${j.date} — ZMW ${j.debit.toFixed(2)}</li>`;
+            if (j.credit > 0) modalCreditList.innerHTML += `<li>${j.date} — ZMW ${j.credit.toFixed(2)}</li>`;
+          });
 
-    ledgerModal.style.display='flex';
-  });
-});
+          ledgerModal.style.display = 'flex';
+        });
+      });
 
-modalClose.onclick = () => ledgerModal.style.display='none';
-window.onclick = e => { if(e.target === ledgerModal) ledgerModal.style.display='none'; };
-</script>
+      modalClose.onclick = () => ledgerModal.style.display = 'none';
+      window.onclick = e => { if (e.target === ledgerModal) ledgerModal.style.display = 'none'; };
+    </script>
 </body>
+
 </html>
